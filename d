@@ -1,0 +1,1 @@
+1 319 144 615 478 0 0 0 192 192 192	5 1 23 /home/stephen/Documents/Developpement/ProgInteractive/Projet/daniel.jpg	

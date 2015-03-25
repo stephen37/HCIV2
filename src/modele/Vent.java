@@ -47,11 +47,11 @@ public class Vent extends CanvasItem {
 	}
 
 	public int getMinX() {
-		return firstPoint.x;
+		return (int) shape.getBounds().getMinX();
 	}
 
 	public int getMinY() {
-		return firstPoint.y;
+		return (int) shape.getBounds().getMinY();
 	}
 
 	public int getWidth() {

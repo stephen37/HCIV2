@@ -29,7 +29,7 @@ public class ImageItem extends CanvasItem {
 	public ImageItem(PersistentCanvas c, Color o, Color f, Point p, Image img,
 			String imagePath, int v) {
 		super(c, o, f, v);
-		shape = new Rectangle(1, 23, img.getWidth(null), img.getHeight(null));
+		shape = new Rectangle(p.x, p.y, img.getWidth(null), img.getHeight(null));
 		System.out.println("Hauteur " + img.getHeight(null));
 		System.out.println("Largeur " + img.getWidth(null));
 		firstpoint = p;

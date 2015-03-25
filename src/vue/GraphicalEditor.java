@@ -375,6 +375,8 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 						} else {
 							mode = "Select/Move";
 						}
+					} else {
+						mode = "Select/Move";
 					}
 
 					// Efface le menu

@@ -45,6 +45,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import modele.CanvasItem;
@@ -127,16 +128,16 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	RedoIconButton redoIcon = new RedoIconButton();
 	CloseIconButton closeIcon = new CloseIconButton();
 
-	JLabel infosMousePositionLabel = new JLabel("" + "," + "0" + " ||");
-	JLabel infosFormeLabel = new JLabel(" Forme : / " + "||");
-	JLabel infosTailleLabel = new JLabel(" Taille : 0 " + "||");
-	JLabel infosAnimationHorLabel = new JLabel(" Animation Horizontale : Non "
+	JLabel infosMousePositionLabel = new JLabel("Mouse position : 0" + ","
+			+ "0" + " ||");
+	JLabel infosFormeLabel = new JLabel(" Shape : / " + "||");
+	JLabel infosTailleLabel = new JLabel(" Size : 0,0 " + "||");
+	JLabel infosAnimationHorLabel = new JLabel(" Horizontal Animation : false "
 			+ "||");
-	JLabel infosAnimationVerLabel = new JLabel(" Animation Verticale : Non "
+	JLabel infosAnimationVerLabel = new JLabel(" Vertical Animation : false "
 			+ "||");
-	JLabel infosAnimationBlinkLabel = new JLabel(
-			" Animation de clignotement : Non " + "||");
-	JLabel infosVitesse = new JLabel(" Vitesse : 0 ");
+	JLabel infosAnimationBlinkLabel = new JLabel(" Blinking : false " + "||");
+	JLabel infosVitesse = new JLabel(" Speed : / ");
 
 	boolean pieMenuDessin;
 	boolean pieMenuAnimation;
@@ -172,7 +173,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		menusPanel.add(menuIconPanel);
 		this.add(menusPanel, BorderLayout.NORTH);
 		JPanel infosPanel = new JPanel();
-		infosPanel.setBackground(Color.yellow);
 		this.add(infosPanel, BorderLayout.SOUTH);
 
 		infosPanel.add(infosMousePositionLabel);
@@ -230,8 +230,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		canvas.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				if (selection != null) {
-					// infosFormeLabel.setText("Forme : " +
-					// canvas.getItemAt(e.getPoint()).getType());
 					// TODO : Finir le label avec toutes les infos
 				}
 				try {
@@ -274,6 +272,13 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 						// TODO you can use the function select(CanvasItem
 						// item);
 						select(canvas.getItemAt(p));
+						infosFormeLabel.setText("Shape : "
+								+ selection.getType() + " ||");
+						infosVitesse.setText("Speed : " + selection.vitesse
+								+ " ||");
+						infosTailleLabel.setText("Size : "
+								+ selection.getHeight() + ","
+								+ selection.getWidth());
 
 					} else if (mode.equals("Blink")) {
 						select(canvas.getItemAt(p));
@@ -281,8 +286,12 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 						if (selection != null) {
 							if (selection.blinkAnimate == true) {
 								selection.blinkAnimate = false;
+								infosAnimationBlinkLabel.setText("Blinking : "
+										+ selection.blinkAnimate + " ||");
 							} else {
 								selection.blinkAnimate = true;
+								infosAnimationBlinkLabel.setText("Blinking : "
+										+ selection.blinkAnimate + " ||");
 							}
 						}
 					} else if (mode.equals("Horizontal")) {
@@ -290,8 +299,17 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 						if (selection != null) {
 							if (selection.horizAnimate == true) {
 								selection.horizAnimate = false;
+								infosAnimationHorLabel
+										.setText("Horizontal Animation : "
+												+ selection.horizAnimate
+												+ " ||");
 							} else {
 								selection.horizAnimate = true;
+								infosAnimationHorLabel
+										.setText("Horizontal Animation : "
+												+ selection.horizAnimate
+												+ " ||");
+
 							}
 						}
 					} else if (mode.equals("Vertical")) {
@@ -299,8 +317,17 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 						if (selection != null) {
 							if (selection.verticAnimate == true) {
 								selection.verticAnimate = false;
+								infosAnimationVerLabel
+										.setText("Vertical Animation : "
+												+ selection.verticAnimate
+												+ " ||");
+
 							} else {
 								selection.verticAnimate = true;
+								infosAnimationVerLabel
+										.setText("Vertical Animation : "
+												+ selection.verticAnimate
+												+ " ||");
 							}
 						}
 					} else if (mode.equals("Resize")) {
@@ -325,16 +352,20 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 					} else {
 						if (mode.equals("Rectangle")) {
 							item = new RectangleItem(canvas, o, f, p, speed);
-							infosFormeLabel.setText("Forme : Rectangle");
+							infosFormeLabel.setText("Forme : Rectangle ||");
+
 						} else if (mode.equals("Ellipse")) {
 							// TODO create a new ellipse
 							item = new CercleItem(canvas, o, f, p, speed);
+							infosFormeLabel.setText("Forme : Ellipse ||");
 						} else if (mode.equals("Line")) {
 							// TODO create a new line
 							item = new LineItem(canvas, o, f, p, speed);
+							infosFormeLabel.setText("Forme : Line ||");
 						} else if (mode.equals("Path")) {
 							// TODO create a new path
 							item = new PathItem(canvas, o, f, p, speed);
+							infosFormeLabel.setText("Forme : Path ||");
 						}
 						canvas.addItem(item);
 						select(item);
@@ -945,7 +976,8 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			public void mouseMoved(MouseEvent e) {
 				// TODO Auto-generated method stub
 				super.mouseMoved(e);
-				infosMousePositionLabel.setText(e.getX() + "," + e.getY());
+				infosMousePositionLabel.setText("Mouse position : " + e.getX()
+						+ "," + e.getY() + " ||");
 			}
 		});
 		this.addKeyListener(this);
@@ -1009,8 +1041,8 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			public void actionPerformed(ActionEvent e) {
 				try {
 					open();
-				} catch (IOException e1) {
-					e1.printStackTrace();
+				} catch (IOException | NullPointerException e1) {
+					// e1.printStackTrace();
 				}
 			}
 		});
@@ -1039,8 +1071,8 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			public void actionPerformed(ActionEvent e) {
 				try {
 					save();
-				} catch (IOException e1) {
-					e1.printStackTrace();
+				} catch (IOException | NullPointerException e1) {
+//					e1.printStackTrace();
 				}
 			}
 		});
@@ -1051,7 +1083,8 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			public void actionPerformed(ActionEvent e) {
 				try {
 					saveAs();
-				} catch (IOException e1) {
+				} catch (IOException | NullPointerException e1) {
+					JOptionPane.showConfirmDialog(null, "Are you sure ?");
 					e1.printStackTrace();
 				}
 			}
@@ -1120,9 +1153,9 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				// TODO Auto-generated method stub
 				try {
 					open();
-				} catch (IOException e1) {
+				} catch (IOException | NullPointerException e1) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					// e1.printStackTrace();
 				}
 
 			}
@@ -1135,7 +1168,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				// TODO Auto-generated method stub
 				try {
 					save();
-				} catch (IOException e1) {
+				} catch (IOException | NullPointerException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
@@ -1817,7 +1850,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				&& ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
 			try {
 				save();
-			} catch (IOException e1) {
+			} catch (IOException | NullPointerException e1) {
 				e1.printStackTrace();
 			}
 		}
@@ -1825,8 +1858,8 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				&& ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
 			try {
 				open();
-			} catch (IOException e1) {
-				e1.printStackTrace();
+			} catch (IOException | NullPointerException e1) {
+				// e1.printStackTrace();
 				if (!canvas.items.isEmpty()) {
 					undoItem.setEnabled(true);
 				} else {
@@ -1846,8 +1879,9 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			try {
 				saveAs();
 
-			} catch (IOException e1) {
+			} catch (IOException | NullPointerException e1) {
 				e1.printStackTrace();
+				JOptionPane.showConfirmDialog(null, "Are you sure ?");
 			}
 		}
 		if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_Z) {

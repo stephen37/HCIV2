@@ -25,6 +25,10 @@ public class CloseIconButton extends JButton {
 		this.setIcon(icon);
 		this.setBackground(Color.WHITE);
 		this.setMaximumSize(new Dimension(30, 30));
+		this.setBackground(new Color(238,238,238));
+		this.setBorderPainted(false);
+		this.setFocusPainted(false);
+
 	}
 
 	public void paintComponent(Graphics g) {

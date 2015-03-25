@@ -34,7 +34,7 @@ import controleur.RectangleButton;
 import controleur.SelectMoveButton;
 import controleur.VerticalButton;
 
-public class ToolBar2 extends JFrame {
+public class ToolBar extends JFrame {
 
 	// Caracteristiques
 	private static final long serialVersionUID = 1L;
@@ -55,7 +55,7 @@ public class ToolBar2 extends JFrame {
 	public JCheckBox neigeCheckBox;
 
 	// Constructeur
-	public ToolBar2() {
+	public ToolBar() {
 		init();
 	}
 

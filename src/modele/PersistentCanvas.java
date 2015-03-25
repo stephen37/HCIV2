@@ -24,7 +24,6 @@ public class PersistentCanvas extends Component {
 
 	public CanvasItem getItemAt(Point p) {
 		// TODO pick the 2D item under the Point p
-		// You can use the function contain(Point p) of each CanvasItem
 		CanvasItem res = null;
 		for (CanvasItem item : items) {
 			if (item.contains(p)) {
@@ -64,21 +63,6 @@ public class PersistentCanvas extends Component {
 		items.clear();
 		repaint();
 	}
-
-	// public static void processAnimation() {
-	// for (CanvasItem item : items) {
-	// PositionAnimation anim = new PositionAnimation(item);
-	// anim.process();
-	// }
-	// }
-	//
-	// public static void resumeAnimations() {
-	// for (CanvasItem item : items) {
-	// PositionAnimation anim = new PositionAnimation(item);
-	// // We have to resume at his origin position.
-	// // anim.resume(10,10);
-	// }
-	// }
 
 	public ArrayList<CanvasItem> getItems() {
 		return items;

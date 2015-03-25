@@ -8,6 +8,7 @@ import javax.swing.Timer;
 
 import modele.CanvasItem;
 import modele.ItemAnimation;
+import modele.Vent;
 import vue.GraphicalEditor;
 
 public class PositionAnimation extends ItemAnimation {
@@ -27,9 +28,10 @@ public class PositionAnimation extends ItemAnimation {
 	@Override
 	public boolean processHorizontal() {
 		// TODO Auto-generated method stub
+		
 		if (item.getMinX() < GraphicalEditor.widthWindow) {
 			item.move(2 * item.vitesse, 0);
-			System.out.println(item.getMinX() + " width " +GraphicalEditor.widthWindow);
+
 		} else {
 			// GraphicalEditor.canvas.addItem(item);
 			System.out.println("On revient au départ !");
@@ -51,6 +53,7 @@ public class PositionAnimation extends ItemAnimation {
 	@Override
 	public boolean processVertical() {
 		// TODO Auto-generated method stub
+		System.out.println("item.getMinY()" + item.getMinY());
 		if (item.getMinY() < GraphicalEditor.heightWindow) {
 			item.move(0, 2 * item.vitesse);
 

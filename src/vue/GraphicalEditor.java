@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;
@@ -40,6 +41,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -89,12 +91,13 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	public static ArrayList<JButton> operations;
 
 	private Point mousepos; // Stores the previous mouse position
+	private Point mousePosition;
 
 	protected static String title; // Changes according to the mode
 
 	public static PersistentCanvas canvas; // Stores the created items
 	public static CanvasItem selection; // Stores the selected item
-	ToolBar2 toolbar; // Lance notre toolbar
+	ToolBar toolbar; // Lance notre toolbar
 	public static String mode;
 	Image image; // Permet de récuperer l'image lors du drag & drop
 	JMenuBar menu;
@@ -124,13 +127,24 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	RedoIconButton redoIcon = new RedoIconButton();
 	CloseIconButton closeIcon = new CloseIconButton();
 
+	JLabel infosMousePositionLabel = new JLabel("" + "," + "0" + " ||");
+	JLabel infosFormeLabel = new JLabel(" Forme : / " + "||");
+	JLabel infosTailleLabel = new JLabel(" Taille : 0 " + "||");
+	JLabel infosAnimationHorLabel = new JLabel(" Animation Horizontale : Non "
+			+ "||");
+	JLabel infosAnimationVerLabel = new JLabel(" Animation Verticale : Non "
+			+ "||");
+	JLabel infosAnimationBlinkLabel = new JLabel(
+			" Animation de clignotement : Non " + "||");
+	JLabel infosVitesse = new JLabel(" Vitesse : 0 ");
+
 	boolean pieMenuDessin;
 	boolean pieMenuAnimation;
 	Point dessin = new Point(0, 0);
 
 	// Constructor of the Graphical Editor
 
-	public GraphicalEditor(String theTitle, int width, int height, ToolBar2 tool) {
+	public GraphicalEditor(String theTitle, int width, int height, ToolBar tool) {
 		frame = this;
 		widthWindow = width;
 		heightWindow = height;
@@ -157,7 +171,17 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		menusPanel.add(menuPanel);
 		menusPanel.add(menuIconPanel);
 		this.add(menusPanel, BorderLayout.NORTH);
-		// this.add(menuPanel, BorderLayout.NORTH);
+		JPanel infosPanel = new JPanel();
+		infosPanel.setBackground(Color.yellow);
+		this.add(infosPanel, BorderLayout.SOUTH);
+
+		infosPanel.add(infosMousePositionLabel);
+		infosPanel.add(infosFormeLabel);
+		infosPanel.add(infosTailleLabel);
+		infosPanel.add(infosAnimationHorLabel);
+		infosPanel.add(infosAnimationVerLabel);
+		infosPanel.add(infosAnimationBlinkLabel);
+		infosPanel.add(infosVitesse);
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
@@ -205,6 +229,11 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 
 		canvas.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
+				if (selection != null) {
+					// infosFormeLabel.setText("Forme : " +
+					// canvas.getItemAt(e.getPoint()).getType());
+					// TODO : Finir le label avec toutes les infos
+				}
 				try {
 					saveUndo();
 				} catch (IOException e1) {
@@ -248,6 +277,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 
 					} else if (mode.equals("Blink")) {
 						select(canvas.getItemAt(p));
+
 						if (selection != null) {
 							if (selection.blinkAnimate == true) {
 								selection.blinkAnimate = false;
@@ -295,6 +325,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 					} else {
 						if (mode.equals("Rectangle")) {
 							item = new RectangleItem(canvas, o, f, p, speed);
+							infosFormeLabel.setText("Forme : Rectangle");
 						} else if (mode.equals("Ellipse")) {
 							// TODO create a new ellipse
 							item = new CercleItem(canvas, o, f, p, speed);
@@ -907,6 +938,13 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 					mousepos = e.getPoint();
 				}
 			}
+
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				// TODO Auto-generated method stub
+				super.mouseMoved(e);
+				infosMousePositionLabel.setText(e.getX() + "," + e.getY());
+			}
 		});
 		this.addKeyListener(this);
 
@@ -1040,25 +1078,25 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				toolbar = new ToolBar2();
+				toolbar = new ToolBar();
 			}
 		});
 	}
 
 	public void initIconsMenuPanel() {
 		menuIconPanel = new JPanel();
+		menuIconPanel.setLayout(new BorderLayout());
 		JPanel iconPanel = new JPanel();
-		iconPanel.setLayout(new BorderLayout());
+		iconPanel.setLayout(new GridLayout(1, 7, 10, 20));
+		iconPanel.add(newIcon);
+		iconPanel.add(openIcon);
+		iconPanel.add(saveIcon);
+		iconPanel.add(toolboxIcon);
+		iconPanel.add(undoIcon);
+		iconPanel.add(redoIcon);
+		iconPanel.add(closeIcon);
 
-		iconPanel.add(newIcon, BorderLayout.EAST);
-		iconPanel.add(openIcon, BorderLayout.EAST);
-		iconPanel.add(saveIcon, BorderLayout.EAST);
-		iconPanel.add(toolboxIcon, BorderLayout.EAST);
-		iconPanel.add(undoIcon, BorderLayout.EAST);
-		iconPanel.add(redoIcon, BorderLayout.EAST);
-		iconPanel.add(closeIcon, BorderLayout.EAST);
-		iconPanel.setBackground(Color.RED);
-		menuIconPanel.add(iconPanel);
+		menuIconPanel.add(iconPanel, BorderLayout.WEST);
 
 		this.add(menuIconPanel);
 	}
@@ -1107,7 +1145,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				toolbar = new ToolBar2();
+				toolbar = new ToolBar();
 			}
 		});
 

@@ -165,11 +165,11 @@ public class ToolBar extends JFrame {
 
 		/*********** Labels ***********/
 		// Label 'Forme'
-		JLabel labelForme = new JLabel("Formes");
+		JLabel labelForme = new JLabel("Shapes");
 		labelForme.setForeground(Color.gray);
 
 		// Label 'Couleur'
-		JLabel labelCouleurs = new JLabel("Couleurs");
+		JLabel labelCouleurs = new JLabel("Colours");
 		labelCouleurs.setForeground(Color.gray);
 
 		// Label 'Action'
@@ -207,7 +207,7 @@ public class ToolBar extends JFrame {
 		dessin.add(couleurPanel);
 		dessin.add(actionPanel);
 
-		ongletPan.addTab("Dessin", dessin);
+		ongletPan.addTab("Drawing", dessin);
 	}
 
 	// Initialise le panel de l'onglet "Animation"
@@ -272,8 +272,8 @@ public class ToolBar extends JFrame {
 		});
 
 		// CheckBox pour les animations de decors Vent/Neige
-		ventCheckBox = new JCheckBox("Vent", false);
-		neigeCheckBox = new JCheckBox("Neige", false);
+		ventCheckBox = new JCheckBox("Wind", false);
+		neigeCheckBox = new JCheckBox("Snow", false);
 		ventCheckBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -325,19 +325,19 @@ public class ToolBar extends JFrame {
 
 		/*********** Labels ***********/
 		// Boutons
-		JLabel animLabel = new JLabel("Animation");
+		JLabel animLabel = new JLabel("Animations");
 		animLabel.setForeground(Color.LIGHT_GRAY);
 
 		// CheckBox Start/Stop
-		JLabel lancLabel = new JLabel("Lancement");
+		JLabel lancLabel = new JLabel("Start");
 		lancLabel.setForeground(Color.LIGHT_GRAY);
 
 		// CheckBox Vent/Neige
-		JLabel decorLabel = new JLabel("Decors");
+		JLabel decorLabel = new JLabel("Decorations");
 		decorLabel.setForeground(Color.LIGHT_GRAY);
 
 		// Vitesse
-		JLabel vitLabel = new JLabel("Vitesse");
+		JLabel vitLabel = new JLabel("Speed");
 		vitLabel.setForeground(Color.LIGHT_GRAY);
 
 		/*********** Slider ***********/
@@ -389,7 +389,7 @@ public class ToolBar extends JFrame {
 		animation.add(decorPanel);
 		animation.add(boxNSlid);
 
-		ongletPan.addTab("Animation", animation);
+		ongletPan.addTab("Animations", animation);
 	}
 
 	// Cree un bouton permettant de faire une opération et lui ajoute un

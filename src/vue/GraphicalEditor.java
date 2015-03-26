@@ -1070,7 +1070,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				try {
 					save();
 				} catch (IOException | NullPointerException e1) {
-//					e1.printStackTrace();
+					// e1.printStackTrace();
 				}
 			}
 		});

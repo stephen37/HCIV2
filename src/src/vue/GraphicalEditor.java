@@ -52,6 +52,7 @@ import javax.swing.JSpinner;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import sun.awt.image.BufferedImageGraphicsConfig;
 import modele.CanvasItem;
 import modele.CercleItem;
 import modele.GuideItem;
@@ -476,8 +477,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				ArrayList<CanvasItem> list = new ArrayList<CanvasItem>();
 				if (mode.equals("Menu")) {
 					for (int i = 0; i < canvas.getItems().size(); i++) {
-						System.out.println("type "
-								+ canvas.getItems().get(i).getType());
 						if (canvas.getItems().get(i).getType()
 								.equals("PieMenuRectangle")
 								|| canvas.getItems().get(i).getType()
@@ -1508,15 +1507,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			menuPanel.setVisible(false);
 			menu.setVisible(false);
 
-			BufferedImage image = new BufferedImage(this.getSize().width,
-					this.getSize().height, BufferedImage.TYPE_INT_ARGB);
-			Graphics g = image.createGraphics();
-			this.paint(g);
-			g.dispose();
-			try {
-				ImageIO.write(image, "png", new File("test.png"));
-			} catch (Exception e) {
-			}
 		}
 		// System.out.println(data);
 		if (fileChoosen != null) {
@@ -1524,10 +1514,25 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			saveBuff = new BufferedWriter(new FileWriter(fileChoosen));
 			saveBuff.write(data);
 			saveBuff.close();
+			
 		} else {
 			saveAs();
 		}
-
+		
+		JFrame img = new JFrame();
+		img.setSize(canvas.getWidth(), canvas.getHeight());
+		PersistentCanvas tmp = new PersistentCanvas(canvas);
+		img.add(tmp);
+		BufferedImage image = new BufferedImage(img.getSize().width,
+				img.getSize().height, BufferedImage.TYPE_INT_ARGB);
+		Graphics g = image.createGraphics();
+		img.paint(g);
+		g.dispose();
+		try {
+			ImageIO.write(image, "png", new File("test.png"));
+		} catch (Exception e) {
+		}
+		
 		menuPanel.setVisible(true);
 		System.out.println("sauvegarde fin");
 	}

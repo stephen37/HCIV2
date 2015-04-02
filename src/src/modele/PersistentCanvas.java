@@ -22,6 +22,10 @@ public class PersistentCanvas extends Component {
 		items = new ArrayList<CanvasItem>();
 	}
 
+	public PersistentCanvas(PersistentCanvas other){
+		items = other.getItems();
+	}
+	
 	public CanvasItem getItemAt(Point p) {
 		// TODO pick the 2D item under the Point p
 		CanvasItem res = null;
@@ -32,6 +36,7 @@ public class PersistentCanvas extends Component {
 		}
 		return res;
 	}
+
 
 	public GuideItem getNearGuide(Point p) {
 		GuideItem result = null;

@@ -220,14 +220,14 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		// Donne une position à notre Jframe afin d'éviter qu'elle soit par
 		// dessus notre toolbox.
 		setLocation(170, 0);
-		new Tutorial();
+	//	new Tutorial();
 	}
 
 	public void initCanvas() {
 		JPanel canvasPanel = new JPanel();
 		canvasPanel.setMinimumSize(new Dimension(widthWindow, heightWindow));
 		canvasPanel.setSize(new Dimension(widthWindow, heightWindow));
-		canvasPanel.setBackground(new Color(225, 225, 225));
+		canvasPanel.setBackground(new Color(205, 205, 205));
 
 		canvas = new PersistentCanvas();
 		canvas.setBackground(Color.WHITE);
@@ -760,7 +760,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 							if (itm.getType().equals("PieMenuP")) {
 								try {
 									Image img = ImageIO.read(new File(
-											"PieMenu/Pie/Pie4P.png"));
+											"PieMenu/Pie/Pie4PTrans.png"));
 									itm.background = img;
 								} catch (IOException y) {
 
@@ -1169,8 +1169,8 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		iconPanel.add(saveIcon);
 		iconPanel.add(toolboxIcon);
 		iconPanel.add(undoIcon);
-		iconPanel.add(redoIcon);
-		iconPanel.add(closeIcon);
+//		iconPanel.add(redoIcon);
+//		iconPanel.add(closeIcon);
 
 		JPanel size = new JPanel();
 		size.setLayout(new GridLayout(1, 3, 10, 20));

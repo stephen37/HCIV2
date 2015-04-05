@@ -21,6 +21,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
@@ -220,7 +221,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		// Donne une position à notre Jframe afin d'éviter qu'elle soit par
 		// dessus notre toolbox.
 		setLocation(170, 0);
-	//	new Tutorial();
+//		new Tutorial();
 	}
 
 	public void initCanvas() {
@@ -1188,6 +1189,9 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				// TODO Auto-generated method stub
 				canvas.setSize(new Dimension((int) canvasX.getValue(), canvas.getHeight()));
 				canvas.setPreferredSize(new Dimension((int) canvasX.getValue(), canvas.getHeight()));
+				int canvasXValue = (int) canvasX.getValue();
+				int frameWidth = (int) ((int) canvasXValue * 1.2);
+				frame.setSize(new Dimension(frameWidth, frame.getHeight()));
 				repaint();
 			}
 		});
@@ -1198,6 +1202,9 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				// TODO Auto-generated method stub
 				canvas.setSize(new Dimension(canvas.getWidth(), (int) (canvasY.getValue())));
 				canvas.setPreferredSize(new Dimension(canvas.getWidth(), (int) (canvasY.getValue())));
+				int canvasYValue = (int) canvasY.getValue();
+				int frameHeight = (int) ((int) canvasYValue * 1.2);
+				frame.setSize(new Dimension(frame.getWidth(), frameHeight));
 				repaint();
 			}
 		});
@@ -1227,6 +1234,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				canvas.removeAll();
 			}
 		});
+		
 
 		openIcon.addActionListener(new ActionListener() {
 

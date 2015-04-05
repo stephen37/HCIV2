@@ -7,9 +7,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -31,6 +31,7 @@ public class NewIconButton extends JButton {
 		this.setBackground(new Color(238,238,238));
 		this.setBorderPainted(false);
 		this.setFocusPainted(false);
+		
 		this.addMouseListener(new MouseListener() {
 		
 			@Override
@@ -43,6 +44,7 @@ public class NewIconButton extends JButton {
 			public void mouseEntered(MouseEvent e) {
 				setBorderPainted(true);
 				setFocusPainted(true);
+				setToolTipText("Launch a new Editor");
 			}
 
 			@Override

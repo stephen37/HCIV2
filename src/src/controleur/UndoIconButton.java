@@ -44,6 +44,7 @@ public class UndoIconButton extends JButton {
 			public void mouseEntered(MouseEvent e) {
 				setBorderPainted(true);
 				setFocusPainted(true);
+				setToolTipText("Undo the last action.");
 			}
 
 			@Override

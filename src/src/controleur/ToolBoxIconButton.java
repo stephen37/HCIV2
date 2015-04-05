@@ -41,6 +41,7 @@ public class ToolBoxIconButton extends JButton {
 			public void mouseEntered(MouseEvent e) {
 				setBorderPainted(true);
 				setFocusPainted(true);
+				setToolTipText("Open the toolbar.");
 			}
 
 			@Override

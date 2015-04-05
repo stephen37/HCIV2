@@ -41,6 +41,7 @@ public class SaveIconButton extends JButton {
 			public void mouseEntered(MouseEvent e) {
 				setBorderPainted(true);
 				setFocusPainted(true);
+				setToolTipText("Save the current document.");
 			}
 
 			@Override

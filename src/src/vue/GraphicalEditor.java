@@ -48,6 +48,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.event.ChangeEvent;
@@ -197,11 +198,11 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		// Create the canvas for drawing
-//		canvas = new PersistentCanvas();
-//		canvas.setBackground(Color.WHITE);
-//		canvas.setPreferredSize(new Dimension(width, height));
-//		this.add(canvas);
-//		new DropTarget(canvas, this);
+		// canvas = new PersistentCanvas();
+		// canvas.setBackground(Color.WHITE);
+		// canvas.setPreferredSize(new Dimension(width, height));
+		// this.add(canvas);
+		// new DropTarget(canvas, this);
 		initCanvas();
 		// AJOUT DE L'ANIMATION !!!
 		panel.add(anim);
@@ -221,7 +222,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		// Donne une position à notre Jframe afin d'éviter qu'elle soit par
 		// dessus notre toolbox.
 		setLocation(170, 0);
-//		new Tutorial();
+		// new Tutorial();
 	}
 
 	public void initCanvas() {
@@ -232,13 +233,19 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 
 		canvas = new PersistentCanvas();
 		canvas.setBackground(Color.WHITE);
-		canvas.setPreferredSize(new Dimension((int)canvasX.getValue(), (int)canvasY.getValue()));
+		canvas.setPreferredSize(new Dimension((int) canvasX.getValue(),
+				(int) canvasY.getValue()));
 
 		canvasPanel.add(canvas);
+		// JScrollPane scrollPane = new JScrollPane(canvas);
+		// scrollPane
+		// .setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		// scrollPane
+		// .setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		this.add(canvasPanel);
+
 	}
-		
-	
+
 	// Permet de redessiner le bouton Undo afin de le rendre non selectionnable
 	// quand on ne peut plus faire de Undo()
 	public static void repaintUndo() {
@@ -999,8 +1006,8 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 					if (mode.equals("Select/Move")) {
 
 						// TODO move the selected object
-//						selection.move(e.getX() - mousepos.x, e.getY()
-//								- mousepos.y);
+						// selection.move(e.getX() - mousepos.x, e.getY()
+						// - mousepos.y);
 					} else if (!mode.equals("Horizontal")
 							&& !mode.equals("Vertical")
 							&& !mode.equals("Blink")
@@ -1170,8 +1177,8 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		iconPanel.add(saveIcon);
 		iconPanel.add(toolboxIcon);
 		iconPanel.add(undoIcon);
-//		iconPanel.add(redoIcon);
-//		iconPanel.add(closeIcon);
+		// iconPanel.add(redoIcon);
+		// iconPanel.add(closeIcon);
 
 		JPanel size = new JPanel();
 		size.setLayout(new GridLayout(1, 3, 10, 20));
@@ -1187,11 +1194,15 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				// TODO Auto-generated method stub
-				canvas.setSize(new Dimension((int) canvasX.getValue(), canvas.getHeight()));
-				canvas.setPreferredSize(new Dimension((int) canvasX.getValue(), canvas.getHeight()));
+				canvas.setSize(new Dimension((int) canvasX.getValue(), canvas
+						.getHeight()));
+				canvas.setPreferredSize(new Dimension((int) canvasX.getValue(),
+						canvas.getHeight()));
 				int canvasXValue = (int) canvasX.getValue();
-				int frameWidth = (int) ((int) canvasXValue * 1.2);
-				frame.setSize(new Dimension(frameWidth, frame.getHeight()));
+				if (canvasXValue * 1.2 > frame.getWidth()) {
+					int frameWidth = (int) ((int) canvasXValue * 1.2);
+					frame.setSize(new Dimension(frameWidth, frame.getHeight()));
+				}
 				repaint();
 			}
 		});
@@ -1200,11 +1211,16 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				// TODO Auto-generated method stub
-				canvas.setSize(new Dimension(canvas.getWidth(), (int) (canvasY.getValue())));
-				canvas.setPreferredSize(new Dimension(canvas.getWidth(), (int) (canvasY.getValue())));
+				canvas.setSize(new Dimension(canvas.getWidth(), (int) (canvasY
+						.getValue())));
+				canvas.setPreferredSize(new Dimension(canvas.getWidth(),
+						(int) (canvasY.getValue())));
+
 				int canvasYValue = (int) canvasY.getValue();
-				int frameHeight = (int) ((int) canvasYValue * 1.2);
-				frame.setSize(new Dimension(frame.getWidth(), frameHeight));
+				if (canvasYValue * 1.2 > frame.getHeight()) {
+					int frameHeight = (int) ((int) canvasYValue * 1.2);
+					frame.setSize(new Dimension(frame.getWidth(), frameHeight));
+				}
 				repaint();
 			}
 		});
@@ -1234,7 +1250,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				canvas.removeAll();
 			}
 		});
-		
 
 		openIcon.addActionListener(new ActionListener() {
 
@@ -1522,11 +1537,11 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			saveBuff = new BufferedWriter(new FileWriter(fileChoosen));
 			saveBuff.write(data);
 			saveBuff.close();
-			
+
 		} else {
 			saveAs();
 		}
-		
+
 		JFrame img = new JFrame();
 		img.setSize(canvas.getWidth(), canvas.getHeight());
 		PersistentCanvas tmp = new PersistentCanvas(canvas);
@@ -1540,7 +1555,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			ImageIO.write(image, "png", new File("test.png"));
 		} catch (Exception e) {
 		}
-		
+
 		menuPanel.setVisible(true);
 		System.out.println("sauvegarde fin");
 	}

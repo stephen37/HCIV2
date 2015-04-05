@@ -44,7 +44,7 @@ public class NewIconButton extends JButton {
 			public void mouseEntered(MouseEvent e) {
 				setBorderPainted(true);
 				setFocusPainted(true);
-				setToolTipText("Launch a new Editor");
+				setToolTipText("Launch a new Editor.");
 			}
 
 			@Override

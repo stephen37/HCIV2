@@ -41,7 +41,7 @@ public class OpenIconButton extends JButton {
 			public void mouseEntered(MouseEvent e) {
 				setBorderPainted(true);
 				setFocusPainted(true);
-				setToolTipText("Open a document");
+				setToolTipText("Open a document.");
 			}
 
 			@Override

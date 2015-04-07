@@ -237,11 +237,11 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				(int) canvasY.getValue()));
 
 		canvasPanel.add(canvas);
-//		JScrollPane scrollPane = new JScrollPane(canvas);
-//		scrollPane
-//				.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-//		scrollPane
-//				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		// JScrollPane scrollPane = new JScrollPane(canvas);
+		// scrollPane
+		// .setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		// scrollPane
+		// .setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		this.add(canvasPanel);
 
 	}

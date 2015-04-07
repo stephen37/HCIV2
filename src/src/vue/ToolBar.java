@@ -144,7 +144,6 @@ public class ToolBar extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Guides !");
 				GraphicalEditor.mode = "Guide";
 			}
 		});

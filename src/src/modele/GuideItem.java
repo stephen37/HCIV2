@@ -70,7 +70,6 @@ public class GuideItem extends CanvasItem {
 
 	public Boolean isAttracted(Point p) {
 		Line2D.Double l = (Line2D.Double) shape;
-		System.out.println(l.ptSegDist(p) < 20);
 		return (l.ptSegDist(p) < 20);
 	}
 
@@ -96,7 +95,7 @@ public class GuideItem extends CanvasItem {
 	@Override
 	public String getType() {
 		// TODO Auto-generated method stub
-		return null;
+		return "Guide";
 	}
 
 	/*

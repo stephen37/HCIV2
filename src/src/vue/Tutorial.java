@@ -171,7 +171,7 @@ public class Tutorial extends JFrame {
 		mainPanel.add(imagePanel, gb);
 		JTextArea textArea = new JTextArea();
 		textArea.setBackground(mainPanel.getBackground());
-		textArea.setText("For the toolbar, there are two parts. \nThe first part is Drawings, the second one is Animations. In drawings, you can draw some basic shapes,\nyou can change the color of an object, you can also delete an object, clone it or resize it.\nIn Animations, you can choose to anime an object horizontally or vertically, you can make it blink too.\nIt is also possible to add some decorations, you can add wind and / or snow as decorations.\n");
+		textArea.setText("For the toolbar, there are two parts. \nThe first part is Drawings, the second one is Animations. In drawings, you can draw some basic shapes,\nyou can change the color of an object, you can also delete an object, clone it or resize it.\n");
 		gb.gridy = 1;
 		gb.insets = new Insets(10, 0, 10, 0);
 		mainPanel.add(textArea, gb);
@@ -222,7 +222,7 @@ public class Tutorial extends JFrame {
 		mainPanel.add(imagePanel, gb);
 		JTextArea textArea = new JTextArea();
 		textArea.setBackground(mainPanel.getBackground());
-		textArea.setText("This is a test !");
+		textArea.setText("In Animations, you can choose to anime an object horizontally or vertically, you can make it blink too.\nIt is also possible to add some decorations, you can add wind and / or snow as decorations.\n");
 		gb.gridy = 1;
 		gb.insets = new Insets(10, 0, 10, 0);
 		mainPanel.add(textArea, gb);
@@ -257,6 +257,10 @@ public class Tutorial extends JFrame {
 
 	public void removeAll() {
 		this.getContentPane().removeAll();
+	}
+
+	public static void main(String[] args) {
+//		new Tutorial();
 	}
 
 }

@@ -55,6 +55,9 @@ public class ToolBar extends JFrame {
 	public JCheckBox ventCheckBox;
 	public JCheckBox neigeCheckBox;
 
+	public static JCheckBox startCheckBox;
+	public static JCheckBox stopCheckBox;
+
 	// Constructeur
 	public ToolBar() {
 		init();
@@ -257,8 +260,8 @@ public class ToolBar extends JFrame {
 			}
 		});
 		// CheckBox permettant de lancer et stoper l'animation
-		final JCheckBox startCheckBox = new JCheckBox("Start", false);
-		final JCheckBox stopCheckBox = new JCheckBox("Stop", true);
+		startCheckBox = new JCheckBox("Start", false);
+		stopCheckBox = new JCheckBox("Stop", true);
 		startCheckBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -365,6 +368,7 @@ public class ToolBar extends JFrame {
 			public void stateChanged(ChangeEvent e) {
 				if (GraphicalEditor.selection != null) {
 					GraphicalEditor.selection.vitesse = slidVitesse.getValue();
+					GraphicalEditor.infosVitesse.setText("Speed : " + GraphicalEditor.selection.vitesse);
 				}
 			}
 		});

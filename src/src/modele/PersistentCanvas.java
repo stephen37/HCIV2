@@ -7,7 +7,9 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.util.ArrayList;
 
+import vue.ToolBar;
 import controleur.PositionAnimation;
+import controleur.ToolBoxIconButton;
 
 /**
  * @author Nicolas Roussel (roussel@lri.fr)
@@ -22,10 +24,10 @@ public class PersistentCanvas extends Component {
 		items = new ArrayList<CanvasItem>();
 	}
 
-	public PersistentCanvas(PersistentCanvas other){
+	public PersistentCanvas(PersistentCanvas other) {
 		items = other.getItems();
 	}
-	
+
 	public CanvasItem getItemAt(Point p) {
 		// TODO pick the 2D item under the Point p
 		CanvasItem res = null;
@@ -36,7 +38,6 @@ public class PersistentCanvas extends Component {
 		}
 		return res;
 	}
-
 
 	public GuideItem getNearGuide(Point p) {
 		GuideItem result = null;
@@ -94,52 +95,41 @@ public class PersistentCanvas extends Component {
 		return items;
 	}
 
-	public static void processAnimation() {
-		for (CanvasItem item : items) {
-			if (item.horizAnimate) {
-				PositionAnimation anim = new PositionAnimation(item);
-				anim.processHorizontal();
+	public static void processAnimation() { 
+		if (ToolBar.startCheckBox.isSelected()) {
+			for (CanvasItem item : items) {
+				if (item.horizAnimate) {
+					PositionAnimation anim = new PositionAnimation(item);
+					anim.processHorizontal();
+				}
+				if (item.verticAnimate) {
+					PositionAnimation anim = new PositionAnimation(item);
+					anim.processVertical();
+				}
+				if (item.blinkAnimate) {
+					PositionAnimation anim = new PositionAnimation(item);
+					anim.processBlink();
+				}
+				if (item.resize) {
+					PositionAnimation anim = new PositionAnimation(item);
+					anim.processResize();
+					item.resize = false;
+				}
+				if (item.neige) {
+					PositionAnimation anim = new PositionAnimation(item);
+					anim.processVertical();
+				}
+				if (item.vent) {
+					PositionAnimation anim = new PositionAnimation(item);
+					anim.processHorizontal();
+				}
 			}
-			if (item.verticAnimate) {
-				PositionAnimation anim = new PositionAnimation(item);
-				anim.processVertical();
-			}
-			if (item.blinkAnimate) {
-				PositionAnimation anim = new PositionAnimation(item);
-				anim.processBlink();
-			}
-			if (item.resize) {
-				PositionAnimation anim = new PositionAnimation(item);
-				anim.processResize();
-				item.resize = false;
-			}
-			if (item.neige) {
-				PositionAnimation anim = new PositionAnimation(item);
-				anim.processVertical();
-			}
-			if (item.vent) {
-				PositionAnimation anim = new PositionAnimation(item);
-				anim.processHorizontal();
-			}
-			// Mise à jour des avions
-			/*
-			 * Plane aleaPlane = new Plane(new Point2D.Double(300, 300),
-			 * Math.random() * 360); planes.add(aleaPlane);
-			 */
 		}
-		// Mise à jour de l'affichage
-		// repaint();
-		// Suppression des avions atterri
-		// for (Plane plane : arrivedPlanes) {
-		// planes.remove(plane);
-		// }
 	}
 
 	public static void resumeAnimations() {
 		for (CanvasItem item : items) {
 			PositionAnimation anim = new PositionAnimation(item);
-			// We have to resume at his origin position.
-			// anim.resume(10,10);
 		}
 	}
 }

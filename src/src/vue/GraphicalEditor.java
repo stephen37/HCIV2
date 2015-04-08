@@ -89,6 +89,11 @@ import controleur.UndoIconButton;
  *         Batifol
  */
 
+
+
+//TODO : LE DnD NE FONCTIONNE PLUS 
+//TODO : LA SAUVEGARDE EN IMAGE NE FONCTIONNE PLUS 
+
 @SuppressWarnings({ "unused", "resource", "static-access", "serial",
 		"unchecked" })
 public class GraphicalEditor extends JFrame implements DropTargetListener,
@@ -134,7 +139,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	OpenIconButton openIcon = new OpenIconButton();
 	SaveIconButton saveIcon = new SaveIconButton();
 	ToolBoxIconButton toolboxIcon = new ToolBoxIconButton();
-	UndoIconButton undoIcon = new UndoIconButton();
+	static UndoIconButton undoIcon = new UndoIconButton();
 	RedoIconButton redoIcon = new RedoIconButton();
 	CloseIconButton closeIcon = new CloseIconButton();
 
@@ -183,6 +188,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		menusPanel.add(menuIconPanel);
 		this.add(menusPanel, BorderLayout.NORTH);
 		JPanel infosPanel = new JPanel();
+		infosPanel.setBackground(new Color(200, 233, 255));
 		infosPanel.add(infosMousePositionLabel);
 		infosPanel.add(infosFormeLabel);
 		infosPanel.add(infosTailleLabel);
@@ -228,7 +234,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		canvasPanel = new JPanel();
 		canvasPanel.setMinimumSize(new Dimension(widthWindow, heightWindow));
 		canvasPanel.setSize(new Dimension(widthWindow, heightWindow));
-		canvasPanel.setBackground(new Color(205, 205, 205));
+		canvasPanel.setBackground(new Color(215, 215, 215));
 
 		canvas = new PersistentCanvas();
 		canvas.setBackground(Color.WHITE);
@@ -249,9 +255,9 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	// quand on ne peut plus faire de Undo()
 	public static void repaintUndo() {
 		if (!canvas.items.isEmpty() && selection != null) {
-			undoItem.setEnabled(true);
+			undoIcon.setEnabled(true);
 		} else {
-			undoItem.setEnabled(false);
+			undoIcon.setEnabled(false);
 		}
 		frame.repaint();
 	}
@@ -259,9 +265,228 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	// Initialise les listeners de souris pour notre Canvas
 	public void initListenersCanvas() {
 
-		canvasPanel.addMouseListener(new MouseListener() {
+		canvas.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (selection != null) {
+					// TODO : Finir le label avec toutes les infos
+				}
+				try {
+					saveUndo();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				Point p = e.getPoint();
+				Color o = toolbar.getOutlineColor();
+				Color f = toolbar.getFillColor();
+				CanvasItem item = null;
+				int but = e.getButton();
+				if (but == MouseEvent.BUTTON3) {
+					try {
+						mode = "Menu";
 
-			@Override
+						CanvasItem pieDessin = null;
+						CanvasItem pieAnimation = null;
+
+						pieDessin = new PieMenuDessin(canvas, new Color(1f, 0f,
+								0f, .0f), new Color(1f, 0f, 0f, .0f), p, 0);
+						pieAnimation = new PieMenuAnimation(canvas, new Color(
+								1f, 0f, 0f, .0f), new Color(1f, 0f, 0f, .0f),
+								p, 0);
+
+						pieDessin.move(-pieDessin.getWidth() / 2,
+								-pieDessin.getHeight());
+						pieAnimation.move(-pieAnimation.getWidth() / 2, 0);
+
+						canvas.addItem(pieDessin);
+						canvas.addItem(pieAnimation);
+
+						menuPoint = e.getPoint();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				} else if (but == MouseEvent.BUTTON1) {
+					if (mode.equals("Select/Move")) {
+						select(canvas.getItemAt(p));
+						if (selection != null) {
+							infosFormeLabel.setText("Shape : "
+									+ selection.getType() + " ||");
+							infosVitesse
+									.setText("Speed : " + selection.vitesse);
+							infosTailleLabel.setText("Size : "
+									+ selection.getHeight() + " x "
+									+ selection.getWidth());
+							infosAnimationHorLabel
+									.setText("Horizontal Animation : "
+											+ selection.horizAnimate + " ||");
+							infosAnimationVerLabel
+									.setText("Vertical Animation : "
+											+ selection.verticAnimate + " ||");
+							infosAnimationBlinkLabel.setText("Blinking : "
+									+ selection.blinkAnimate + " ||");
+						} else {
+							infosFormeLabel.setText("Shape : " + "/" + " ||");
+							infosVitesse.setText("Speed : " + "/");
+							infosTailleLabel.setText("Size : " + "/ x /");
+							infosAnimationHorLabel
+									.setText("Horizontal Animation : " + false
+											+ " ||");
+							infosAnimationVerLabel
+									.setText("Vertical Animation : " + false
+											+ " ||");
+							infosAnimationBlinkLabel.setText("Blinking : "
+									+ false + " ||");
+						}
+					} else if (mode.equals("Blink")) {
+						select(canvas.getItemAt(p));
+						if (selection != null) {
+							if (selection.blinkAnimate == true) {
+								selection.blinkAnimate = false;
+								infosAnimationHorLabel
+										.setText("Horizontal Animation : "
+												+ selection.horizAnimate
+												+ " ||");
+								infosAnimationVerLabel
+										.setText("Vertical Animation : "
+												+ selection.verticAnimate
+												+ " ||");
+								infosAnimationBlinkLabel.setText("Blinking : "
+										+ selection.blinkAnimate + " ||");
+							} else {
+								selection.blinkAnimate = true;
+								infosAnimationHorLabel
+										.setText("Horizontal Animation : "
+												+ selection.horizAnimate
+												+ " ||");
+								infosAnimationVerLabel
+										.setText("Vertical Animation : "
+												+ selection.verticAnimate
+												+ " ||");
+								infosAnimationBlinkLabel.setText("Blinking : "
+										+ selection.blinkAnimate + " ||");
+							}
+						}
+					} else if (mode.equals("Horizontal")) {
+						select(canvas.getItemAt(p));
+						if (selection != null) {
+							if (selection.horizAnimate == true) {
+								selection.horizAnimate = false;
+								infosAnimationHorLabel
+										.setText("Horizontal Animation : "
+												+ selection.horizAnimate
+												+ " ||");
+								infosAnimationVerLabel
+										.setText("Vertical Animation : "
+												+ selection.verticAnimate
+												+ " ||");
+								infosAnimationBlinkLabel.setText("Blinking : "
+										+ selection.blinkAnimate + " ||");
+								infosVitesse.setText("Speed : "
+										+ selection.vitesse);
+							} else {
+								selection.horizAnimate = true;
+								infosAnimationHorLabel
+										.setText("Horizontal Animation : "
+												+ selection.horizAnimate
+												+ " ||");
+								infosAnimationVerLabel
+										.setText("Vertical Animation : "
+												+ selection.verticAnimate
+												+ " ||");
+								infosAnimationBlinkLabel.setText("Blinking : "
+										+ selection.blinkAnimate + " ||");
+								infosVitesse.setText("Speed : "
+										+ selection.vitesse);
+							}
+						}
+					} else if (mode.equals("Vertical")) {
+						select(canvas.getItemAt(p));
+						if (selection != null) {
+							if (selection.verticAnimate == true) {
+								selection.verticAnimate = false;
+								infosAnimationHorLabel
+										.setText("Horizontal Animation : "
+												+ selection.horizAnimate
+												+ " ||");
+								infosAnimationVerLabel
+										.setText("Vertical Animation : "
+												+ selection.verticAnimate
+												+ " ||");
+								infosAnimationBlinkLabel.setText("Blinking : "
+										+ selection.blinkAnimate + " ||");
+								infosVitesse.setText("Speed : "
+										+ selection.vitesse);
+							} else {
+								selection.verticAnimate = true;
+								infosAnimationHorLabel
+										.setText("Horizontal Animation : "
+												+ selection.horizAnimate
+												+ " ||");
+								infosAnimationVerLabel
+										.setText("Vertical Animation : "
+												+ selection.verticAnimate
+												+ " ||");
+								infosAnimationBlinkLabel.setText("Blinking : "
+										+ selection.blinkAnimate + " ||");
+								infosVitesse.setText("Speed : "
+										+ selection.vitesse);
+							}
+						}
+					} else if (mode.equals("Resize")) {
+						select(canvas.getItemAt(p));
+						if (selection != null) {
+							if (selection.resize == true) {
+								selection.resize = false;
+								infosTailleLabel.setText("Size : "
+										+ selection.getHeight() + " x "
+										+ selection.getWidth());
+							} else {
+								selection.resize = true;
+							}
+						}
+					} else if (mode.equals("Rotation")) {
+						select(canvas.getItemAt(p));
+						if (selection != null) {
+							pointRotate = p;
+						}
+					} else {
+						if (mode.equals("Rectangle")) {
+							item = new RectangleItem(canvas, o, f, p, speed);
+						} else if (mode.equals("Ellipse")) {
+							// TODO create a new ellipse
+							item = new CercleItem(canvas, o, f, p, speed);
+						} else if (mode.equals("Line")) {
+							// TODO create a new line
+							item = new LineItem(canvas, o, f, p, speed);
+						} else if (mode.equals("Path")) {
+							// TODO create a new path
+							item = new PathItem(canvas, o, f, p, speed);
+						} else if (mode.equals("Guide")) {
+							item = new GuideItem(canvas, o, f, p, speed);
+						}
+						canvas.addItem(item);
+						select(item);
+						infosFormeLabel.setText("Shape : "
+								+ selection.getType() + " ||");
+						infosVitesse.setText("Speed : " + selection.vitesse);
+						infosTailleLabel.setText("Size : "
+								+ selection.getHeight() + " x "
+								+ selection.getWidth());
+						infosAnimationHorLabel
+								.setText("Horizontal Animation : "
+										+ selection.horizAnimate + " ||");
+						infosAnimationVerLabel.setText("Vertical Animation : "
+								+ selection.verticAnimate + " ||");
+						infosAnimationBlinkLabel.setText("Blinking : "
+								+ selection.blinkAnimate + " ||");
+					}
+				}
+				updateTitle();
+				repaintUndo();
+				mousepos = p;
+				repaint();
+			}
+
 			public void mouseReleased(MouseEvent e) {
 				if (mode.equals("Menu")) {
 					Point p = e.getPoint();
@@ -330,68 +555,10 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 					frame.repaint();
 				}
 			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				Point p = e.getPoint();
-				int but = e.getButton();
-				if (but == MouseEvent.BUTTON3) {
-					try {
-						mode = "Menu";
-
-						CanvasItem pieDessin = null;
-						CanvasItem pieAnimation = null;
-
-						pieDessin = new PieMenuDessin(canvas, new Color(1f, 0f,
-								0f, .0f), new Color(1f, 0f, 0f, .0f), p, 0);
-						pieAnimation = new PieMenuAnimation(canvas, new Color(
-								1f, 0f, 0f, .0f), new Color(1f, 0f, 0f, .0f),
-								p, 0);
-
-						pieDessin.move(-pieDessin.getWidth() / 2,
-								-pieDessin.getHeight());
-						pieAnimation.move(-pieAnimation.getWidth() / 2, 0);
-
-						canvas.addItem(pieDessin);
-						canvas.addItem(pieAnimation);
-
-						menuPoint = e.getPoint();
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-				}
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
 		});
 
-		canvasPanel.addMouseMotionListener(new MouseMotionListener() {
-
-			@Override
-			public void mouseMoved(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
+		canvas.addMouseMotionListener(new MouseMotionAdapter() {
 			public void mouseDragged(MouseEvent e) {
-				// TODO Auto-generated method stub
 				ArrayList<CanvasItem> list = new ArrayList<CanvasItem>();
 				if (mode.equals("Menu")) {
 					for (int i = 0; i < canvas.getItems().size(); i++) {
@@ -863,842 +1030,77 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 							canvas.repaint();
 						}
 					}
-				}
-			}
-		});
-
-		canvas.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				if (selection != null) {
-					// TODO : Finir le label avec toutes les infos
-				}
-				try {
-					saveUndo();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				Point p = e.getPoint();
-				Color o = toolbar.getOutlineColor();
-				Color f = toolbar.getFillColor();
-				CanvasItem item = null;
-				int but = e.getButton();
-				if (but == MouseEvent.BUTTON3) {
-					// try {
-					// mode = "Menu";
-					//
-					// CanvasItem pieDessin = null;
-					// CanvasItem pieAnimation = null;
-					//
-					// pieDessin = new PieMenuDessin(canvas, new Color(1f, 0f,
-					// 0f, .0f), new Color(1f, 0f, 0f, .0f), p, 0);
-					// pieAnimation = new PieMenuAnimation(canvas, new Color(
-					// 1f, 0f, 0f, .0f), new Color(1f, 0f, 0f, .0f),
-					// p, 0);
-					//
-					// pieDessin.move(-pieDessin.getWidth() / 2,
-					// -pieDessin.getHeight());
-					// pieAnimation.move(-pieAnimation.getWidth() / 2, 0);
-					//
-					// canvas.addItem(pieDessin);
-					// canvas.addItem(pieAnimation);
-					//
-					// menuPoint = e.getPoint();
-					// } catch (IOException e1) {
-					// e1.printStackTrace();
-					// }
-				} else if (but == MouseEvent.BUTTON1) {
+				} else {
+					if (selection == null)
+						return;
 					if (mode.equals("Select/Move")) {
-						select(canvas.getItemAt(p));
-						if (selection != null) {
-							infosFormeLabel.setText("Shape : "
-									+ selection.getType() + " ||");
-							infosVitesse
-									.setText("Speed : " + selection.vitesse);
-							infosTailleLabel.setText("Size : "
-									+ selection.getHeight() + " x "
-									+ selection.getWidth());
-							infosAnimationHorLabel
-									.setText("Horizontal Animation : "
-											+ selection.horizAnimate + " ||");
-							infosAnimationVerLabel
-									.setText("Vertical Animation : "
-											+ selection.verticAnimate + " ||");
-							infosAnimationBlinkLabel.setText("Blinking : "
-									+ selection.blinkAnimate + " ||");
+						Point eventPoint = e.getPoint();
+						if (!(selection.getTag() == null)) {
+							selection.move(e.getX() - mousepos.x, 0);
+						} else
+							selection.move(e.getX() - mousepos.x, e.getY()
+									- mousepos.y);
+						GuideItem guide = canvas.getNearGuide(eventPoint);
+						if (guide != null) {
+							if (!(selection.getTag() == guide.getTag())) {
+								selection.setY(guide.getY());
+								selection.setTag(guide.getTag());
+								selection.deselect();
+								selection = null;
+							}
+
 						} else {
-							infosFormeLabel.setText("Shape : " + "/" + " ||");
-							infosVitesse.setText("Speed : " + "/");
-							infosTailleLabel.setText("Size : " + "/ x /");
-							infosAnimationHorLabel
-									.setText("Horizontal Animation : " + false
-											+ " ||");
-							infosAnimationVerLabel
-									.setText("Vertical Animation : " + false
-											+ " ||");
-							infosAnimationBlinkLabel.setText("Blinking : "
-									+ false + " ||");
+							selection.setTag(null);
 						}
-					} else if (mode.equals("Blink")) {
-						select(canvas.getItemAt(p));
-						if (selection != null) {
-							if (selection.blinkAnimate == true) {
-								selection.blinkAnimate = false;
-								infosAnimationHorLabel
-										.setText("Horizontal Animation : "
-												+ selection.horizAnimate
-												+ " ||");
-								infosAnimationVerLabel
-										.setText("Vertical Animation : "
-												+ selection.verticAnimate
-												+ " ||");
-								infosAnimationBlinkLabel.setText("Blinking : "
-										+ selection.blinkAnimate + " ||");
-							} else {
-								selection.blinkAnimate = true;
-								infosAnimationHorLabel
-										.setText("Horizontal Animation : "
-												+ selection.horizAnimate
-												+ " ||");
-								infosAnimationVerLabel
-										.setText("Vertical Animation : "
-												+ selection.verticAnimate
-												+ " ||");
-								infosAnimationBlinkLabel.setText("Blinking : "
-										+ selection.blinkAnimate + " ||");
-							}
-						}
-					} else if (mode.equals("Horizontal")) {
-						select(canvas.getItemAt(p));
-						if (selection != null) {
-							if (selection.horizAnimate == true) {
-								selection.horizAnimate = false;
-								infosAnimationHorLabel
-										.setText("Horizontal Animation : "
-												+ selection.horizAnimate
-												+ " ||");
-								infosAnimationVerLabel
-										.setText("Vertical Animation : "
-												+ selection.verticAnimate
-												+ " ||");
-								infosAnimationBlinkLabel.setText("Blinking : "
-										+ selection.blinkAnimate + " ||");
-								infosVitesse.setText("Speed : "
-										+ selection.vitesse);
-							} else {
-								selection.horizAnimate = true;
-								infosAnimationHorLabel
-										.setText("Horizontal Animation : "
-												+ selection.horizAnimate
-												+ " ||");
-								infosAnimationVerLabel
-										.setText("Vertical Animation : "
-												+ selection.verticAnimate
-												+ " ||");
-								infosAnimationBlinkLabel.setText("Blinking : "
-										+ selection.blinkAnimate + " ||");
-								infosVitesse.setText("Speed : "
-										+ selection.vitesse);
-							}
-						}
-					} else if (mode.equals("Vertical")) {
-						select(canvas.getItemAt(p));
-						if (selection != null) {
-							if (selection.verticAnimate == true) {
-								selection.verticAnimate = false;
-								infosAnimationHorLabel
-										.setText("Horizontal Animation : "
-												+ selection.horizAnimate
-												+ " ||");
-								infosAnimationVerLabel
-										.setText("Vertical Animation : "
-												+ selection.verticAnimate
-												+ " ||");
-								infosAnimationBlinkLabel.setText("Blinking : "
-										+ selection.blinkAnimate + " ||");
-								infosVitesse.setText("Speed : "
-										+ selection.vitesse);
-							} else {
-								selection.verticAnimate = true;
-								infosAnimationHorLabel
-										.setText("Horizontal Animation : "
-												+ selection.horizAnimate
-												+ " ||");
-								infosAnimationVerLabel
-										.setText("Vertical Animation : "
-												+ selection.verticAnimate
-												+ " ||");
-								infosAnimationBlinkLabel.setText("Blinking : "
-										+ selection.blinkAnimate + " ||");
-								infosVitesse.setText("Speed : "
-										+ selection.vitesse);
-							}
-						}
-					} else if (mode.equals("Resize")) {
-						select(canvas.getItemAt(p));
-						if (selection != null) {
-							if (selection.resize == true) {
-								selection.resize = false;
-								infosTailleLabel.setText("Size : "
-										+ selection.getHeight() + " x "
-										+ selection.getWidth());
-							} else {
-								selection.resize = true;
-							}
-						}
+						// TODO move the selected object
+						// selection.move(e.getX() - mousepos.x, e.getY()
+						// - mousepos.y);
+					} else if (!mode.equals("Horizontal")
+							&& !mode.equals("Vertical")
+							&& !mode.equals("Blink")
+							&& !mode.equals("Rotation")) {
+						selection.update(e.getPoint());
 					} else if (mode.equals("Rotation")) {
-						select(canvas.getItemAt(p));
-						if (selection != null) {
-							pointRotate = p;
-						}
-					} else {
-						if (mode.equals("Rectangle")) {
-							item = new RectangleItem(canvas, o, f, p, speed);
-						} else if (mode.equals("Ellipse")) {
-							// TODO create a new ellipse
-							item = new CercleItem(canvas, o, f, p, speed);
-						} else if (mode.equals("Line")) {
-							// TODO create a new line
-							item = new LineItem(canvas, o, f, p, speed);
-						} else if (mode.equals("Path")) {
-							// TODO create a new path
-							item = new PathItem(canvas, o, f, p, speed);
-						} else if (mode.equals("Guide")) {
-							item = new GuideItem(canvas, o, f, p, speed);
-						}
-						canvas.addItem(item);
-						select(item);
-						infosFormeLabel.setText("Shape : "
-								+ selection.getType() + " ||");
-						infosVitesse.setText("Speed : " + selection.vitesse);
-						infosTailleLabel.setText("Size : "
-								+ selection.getHeight() + " x "
-								+ selection.getWidth());
-						infosAnimationHorLabel
-								.setText("Horizontal Animation : "
-										+ selection.horizAnimate + " ||");
-						infosAnimationVerLabel.setText("Vertical Animation : "
-								+ selection.verticAnimate + " ||");
-						infosAnimationBlinkLabel.setText("Blinking : "
-								+ selection.blinkAnimate + " ||");
+						AffineTransform at = new AffineTransform();
+						Point center = new Point(
+								(selection.getMinX() * 2 + selection.getWidth()) / 2,
+								(selection.getMinY() * 2 + selection
+										.getHeight()) / 2);
+						Point tmp = new Point(e.getX(), e.getY());
+
+						// System.out.println("Initialisation	" +
+						// pointRotate.getX()
+						// + " ; " + pointRotate.getY());
+						// System.out.println("Deplacement	" + tmp.getX() +
+						// " ; " +
+						// tmp.getY());
+						at.translate(-selection.getMinX(), -selection.getMinY());
+						at.rotate(tmp.y - center.y);
+						at.translate(selection.getMinX(), selection.getMinY());
 					}
-				}
-				updateTitle();
-				repaintUndo();
-				mousepos = p;
-				repaint();
-			}
+					if (selection == null)
+						return;
+					if (mode.equals("Select/Move")) {
 
-			public void mouseReleased(MouseEvent e) {
-				// if (mode.equals("Menu")) {
-				// Point p = e.getPoint();
-				//
-				// // Recupere le mode
-				// if (!pieMenuDessin) {
-				// if (p.x < dessin.x - 20 && p.y < dessin.y - 20) {
-				// mode = "Ellipse";
-				// } else if (p.x > dessin.x + 20 && p.y < dessin.y - 20) {
-				// mode = "Rectangle";
-				// } else if (p.x < dessin.x - 20 && p.y > dessin.y + 20) {
-				// mode = "Path";
-				// } else if (p.x > dessin.x + 20 && p.y > dessin.y + 20) {
-				// mode = "Line";
-				// } else {
-				// mode = "Select/Move";
-				// }
-				// } else if (!pieMenuAnimation) {
-				// if (p.x < dessin.x - 20 && p.y < dessin.y - 20) {
-				// mode = "Vertical";
-				// } else if (p.x > dessin.x + 20 && p.y < dessin.y - 20) {
-				// mode = "Horizontal";
-				// } else if (p.x < dessin.x - 20 && p.y > dessin.y + 20) {
-				// mode = "P";
-				// } else if (p.x > dessin.x + 20 && p.y > dessin.y + 20) {
-				// mode = "Blink";
-				// } else {
-				// mode = "Select/Move";
-				// }
-				// } else {
-				// mode = "Select/Move";
-				// }
-				//
-				// // Efface le menu
-				// ArrayList<CanvasItem> list = new ArrayList<CanvasItem>();
-				// for (int i = 0; i < canvas.getItems().size(); i++) {
-				// if (canvas.getItems().get(i).getType()
-				// .equals("PieMenuRectangle")
-				// || canvas.getItems().get(i).getType()
-				// .equals("PieMenuEllipse")
-				// || canvas.getItems().get(i).getType()
-				// .equals("PieMenuPath")
-				// || canvas.getItems().get(i).getType()
-				// .equals("PieMenuLine")
-				// || canvas.getItems().get(i).getType()
-				// .equals("PieMenuDessin")
-				// || canvas.getItems().get(i).getType()
-				// .equals("PieMenuAnimation")
-				// || canvas.getItems().get(i).getType()
-				// .equals("PieMenuH")
-				// || canvas.getItems().get(i).getType()
-				// .equals("PieMenuV")
-				// || canvas.getItems().get(i).getType()
-				// .equals("PieMenuP")
-				// || canvas.getItems().get(i).getType()
-				// .equals("PieMenuC")) {
-				// list.add(canvas.getItems().get(i));
-				// }
-				// }
-				// for (int j = 0; j < list.size(); j++) {
-				// canvas.removeItem(list.get(j));
-				// }
-				// pieMenuDessin = true;
-				// pieMenuAnimation = true;
-				// updateTitle();
-				// frame.repaint();
-				// }
-			}
-		});
-
-		canvas.addMouseMotionListener(new MouseMotionAdapter() {
-			public void mouseDragged(MouseEvent e) {
-				// ArrayList<CanvasItem> list = new ArrayList<CanvasItem>();
-				// if (mode.equals("Menu")) {
-				// for (int i = 0; i < canvas.getItems().size(); i++) {
-				// if (canvas.getItems().get(i).getType()
-				// .equals("PieMenuRectangle")
-				// || canvas.getItems().get(i).getType()
-				// .equals("PieMenuEllipse")
-				// || canvas.getItems().get(i).getType()
-				// .equals("PieMenuPath")
-				// || canvas.getItems().get(i).getType()
-				// .equals("PieMenuLine")
-				// || canvas.getItems().get(i).getType()
-				// .equals("PieMenuDessin")
-				// || canvas.getItems().get(i).getType()
-				// .equals("PieMenuAnimation")
-				// || canvas.getItems().get(i).getType()
-				// .equals("PieMenuH")
-				// || canvas.getItems().get(i).getType()
-				// .equals("PieMenuV")
-				// || canvas.getItems().get(i).getType()
-				// .equals("PieMenuP")
-				// || canvas.getItems().get(i).getType()
-				// .equals("PieMenuC")) {
-				// list.add(canvas.getItems().get(i));
-				// }
-				// }
-				// Point p = e.getPoint();
-				// if (pieMenuDessin && p.y < menuPoint.y - 20) {
-				// dessin.setLocation(new Point(menuPoint.x,
-				// menuPoint.y - 160));
-				// removePieAnimation();
-				// setPieDessin(dessin, list);
-				// for (CanvasItem itm : list) {
-				// if (itm.getType().equals("PieMenuAnimation")) {
-				// try {
-				// Image img = ImageIO
-				// .read(new File(
-				// "PieMenu/Pie/Pie2AnimationTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuDessin")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie2Dessin.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				// }
-				// }
-				// }
-				// }
-				// if (pieMenuAnimation && p.y > menuPoint.y + 20) {
-				// dessin.setLocation(new Point(menuPoint.x,
-				// menuPoint.y + 160));
-				// removePieDessin();
-				// setPieAnimation(dessin, list);
-				// for (CanvasItem itm : list) {
-				// if (itm.getType().equals("PieMenuAnimation")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie2Animation.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuDessin")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie2DessinTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				// }
-				// }
-				// }
-				// }
-				//
-				// if (p.x < dessin.x - 20 && p.y < dessin.y - 20) {
-				// // Menu Ellipse | V
-				// for (CanvasItem itm : list) {
-				// if (itm.getType().equals("PieMenuRectangle")) {
-				// try {
-				// Image img = ImageIO
-				// .read(new File(
-				// "PieMenu/Pie/Pie4RectangleTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuPath")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4PathTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuLine")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4LineTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuEllipse")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4Ellipse.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuH")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4HTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuP")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4PTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuC")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4CTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuV")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4V.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// canvas.repaint();
-				// }
-				// } else if (p.x > dessin.x + 20 && p.y < dessin.y - 20) {
-				// // Menu Rectangle | H
-				// for (CanvasItem itm : list) {
-				// if (itm.getType().equals("PieMenuRectangle")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4Rectangle.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuPath")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4PathTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuLine")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4LineTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuEllipse")) {
-				// try {
-				// Image img = ImageIO
-				// .read(new File(
-				// "PieMenu/Pie/Pie4EllipseTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuH")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4H.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuP")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4PTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuC")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4CTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuV")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4VTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// canvas.repaint();
-				// }
-				// } else if (p.x < dessin.x - 20 && p.y > dessin.y + 20) {
-				// // Menu Path | P
-				// for (CanvasItem itm : list) {
-				// if (itm.getType().equals("PieMenuRectangle")) {
-				// try {
-				// Image img = ImageIO
-				// .read(new File(
-				// "PieMenu/Pie/Pie4RectangleTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuPath")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4Path.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuLine")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4LineTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuEllipse")) {
-				// try {
-				// Image img = ImageIO
-				// .read(new File(
-				// "PieMenu/Pie/Pie4EllipseTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuH")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4HTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuP")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4PTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuC")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4CTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuV")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4VTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// canvas.repaint();
-				// }
-				// } else if (p.x > dessin.x + 20 && p.y > dessin.y + 20) {
-				// // Menu Line | C
-				// for (CanvasItem itm : list) {
-				// if (itm.getType().equals("PieMenuRectangle")) {
-				// try {
-				// Image img = ImageIO
-				// .read(new File(
-				// "PieMenu/Pie/Pie4RectangleTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuPath")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4PathTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuLine")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4Line.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuEllipse")) {
-				// try {
-				// Image img = ImageIO
-				// .read(new File(
-				// "PieMenu/Pie/Pie4EllipseTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuH")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4HTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuP")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4PTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuC")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4C.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuV")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4VTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// canvas.repaint();
-				// }
-				// } else {
-				// // Zone neutre
-				// for (CanvasItem itm : list) {
-				// if (itm.getType().equals("PieMenuRectangle")) {
-				// try {
-				// Image img = ImageIO
-				// .read(new File(
-				// "PieMenu/Pie/Pie4RectangleTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuPath")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4PathTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuLine")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4LineTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuEllipse")) {
-				// try {
-				// Image img = ImageIO
-				// .read(new File(
-				// "PieMenu/Pie/Pie4EllipseTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuH")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4HTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuP")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4PTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuC")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4CTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// if (itm.getType().equals("PieMenuV")) {
-				// try {
-				// Image img = ImageIO.read(new File(
-				// "PieMenu/Pie/Pie4VTrans.png"));
-				// itm.background = img;
-				// } catch (IOException y) {
-				//
-				// }
-				// }
-				// canvas.repaint();
-				// }
-				// }
-				// } else {
-				if (selection == null)
-					return;
-				if (mode.equals("Select/Move")) {
-					Point eventPoint = e.getPoint();
-					if (!(selection.getTag() == null)) {
-						selection.move(e.getX() - mousepos.x, 0);
-					} else
-						selection.move(e.getX() - mousepos.x, e.getY()
-								- mousepos.y);
-					GuideItem guide = canvas.getNearGuide(eventPoint);
-					if (guide != null) {
-						if (!(selection.getTag() == guide.getTag())) {
-							selection.setY(guide.getY());
-							selection.setTag(guide.getTag());
-							selection.deselect();
-							selection = null;
-						}
-
-					} else {
-						selection.setTag(null);
+						// TODO move the selected object
+						// selection.move(e.getX() - mousepos.x, e.getY()
+						// - mousepos.y);
+					} else if (!mode.equals("Horizontal")
+							&& !mode.equals("Vertical")
+							&& !mode.equals("Blink")
+							&& !mode.equals("Rotation")) {
+						selection.update(e.getPoint());
 					}
-					// TODO move the selected object
-					// selection.move(e.getX() - mousepos.x, e.getY()
-					// - mousepos.y);
-				} else if (!mode.equals("Horizontal")
-						&& !mode.equals("Vertical") && !mode.equals("Blink")
-						&& !mode.equals("Rotation")) {
-					selection.update(e.getPoint());
-				} else if (mode.equals("Rotation")) {
-					AffineTransform at = new AffineTransform();
-					Point center = new Point(
-							(selection.getMinX() * 2 + selection.getWidth()) / 2,
-							(selection.getMinY() * 2 + selection.getHeight()) / 2);
-					Point tmp = new Point(e.getX(), e.getY());
-
-					// System.out.println("Initialisation	" +
-					// pointRotate.getX()
-					// + " ; " + pointRotate.getY());
-					// System.out.println("Deplacement	" + tmp.getX() +
-					// " ; " +
-					// tmp.getY());
-					at.translate(-selection.getMinX(), -selection.getMinY());
-					at.rotate(tmp.y - center.y);
-					at.translate(selection.getMinX(), selection.getMinY());
+					mousepos = e.getPoint();
+					infosMousePositionLabel.setText("Mouse position : "
+							+ e.getX() + "," + e.getY() + " ||");
+					infosFormeLabel.setText("Shape : " + selection.getType()
+							+ " ||");
+					infosVitesse.setText("Speed : " + selection.vitesse);
+					infosTailleLabel.setText("Size : " + selection.getHeight()
+							+ " x " + selection.getWidth());
+					// }
 				}
-				if (selection == null)
-					return;
-				if (mode.equals("Select/Move")) {
-
-					// TODO move the selected object
-					// selection.move(e.getX() - mousepos.x, e.getY()
-					// - mousepos.y);
-				} else if (!mode.equals("Horizontal")
-						&& !mode.equals("Vertical") && !mode.equals("Blink")
-						&& !mode.equals("Rotation")) {
-					selection.update(e.getPoint());
-				}
-				mousepos = e.getPoint();
-				infosMousePositionLabel.setText("Mouse position : " + e.getX()
-						+ "," + e.getY() + " ||");
-				infosFormeLabel.setText("Shape : " + selection.getType()
-						+ " ||");
-				infosVitesse.setText("Speed : " + selection.vitesse);
-				infosTailleLabel.setText("Size : " + selection.getHeight()
-						+ " x " + selection.getWidth());
-				// }
 			}
 
 			@Override
@@ -1752,15 +1154,15 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 
 		JMenuItem pasteItem = new JMenuItem("Paste");
 		editMenu.add(pasteItem);
-		menuPanel.setBackground(Color.lightGray);
-		menu.setBackground(Color.lightGray);
-		fileMenu.setBackground(Color.lightGray);
-		editMenu.setBackground(Color.lightGray);
+//		menuPanel.setBackground(new Color(205, 205, 205));
+		menuPanel.setBackground(new Color(170,223,255));
+		menu.setBackground(new Color(170,223,255));
+		fileMenu.setBackground(new Color(170,223,255));
+		editMenu.setBackground(new Color(170,223,255));
 
-		undoItem = new JMenuItem("Undo");
-		undoItem.setBackground(Color.lightGray);
-		undoItem.setEnabled(false);
-		menu.add(undoItem);
+		JMenuItem helpItem = new JMenuItem("Help");
+		helpItem.setBackground(new Color(170,223,255));
+		menu.add(helpItem);
 
 		/************ Listeners ***********/
 
@@ -1772,24 +1174,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 					open();
 				} catch (IOException | NullPointerException e1) {
 					// e1.printStackTrace();
-				}
-			}
-		});
-
-		undoItem.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				if (canvas.items.isEmpty() && selection == null) {
-					undoItem.setEnabled(false);
-					frame.repaint();
-				} else {
-					try {
-						undo();
-						repaintUndo();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
 				}
 			}
 		});
@@ -1845,6 +1229,17 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				toolbar = new ToolBar();
 			}
 		});
+
+		helpItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				Tutorial.prefs.putBoolean("checkbox", false);
+				Tutorial tuto = new Tutorial();
+//				 tuto.prefs.putBoolean("checkbox", false);
+			}
+		});
 	}
 
 	public void initIconsMenuPanel() {
@@ -1853,17 +1248,19 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		JPanel menuPanel = new JPanel();
 		menuPanel.setLayout(new BorderLayout());
 		JPanel iconPanel = new JPanel();
-		iconPanel.setBackground(new Color(238, 238, 238));
+		iconPanel.setBackground(new Color(200, 233, 255));
 		iconPanel.setLayout(new GridLayout(1, 8, 10, 20));
 		iconPanel.add(newIcon);
 		iconPanel.add(openIcon);
 		iconPanel.add(saveIcon);
 		iconPanel.add(toolboxIcon);
+		undoIcon.setEnabled(false);
 		iconPanel.add(undoIcon);
 		// iconPanel.add(redoIcon);
 		// iconPanel.add(closeIcon);
 
 		JPanel size = new JPanel();
+		size.setBackground(new Color(200, 233, 255));
 		size.setLayout(new GridLayout(1, 3, 10, 20));
 		canvasX = new JSpinner();
 		canvasX.setMaximumSize(new Dimension(30, 30));
@@ -1882,7 +1279,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				canvas.setPreferredSize(new Dimension((int) canvasX.getValue(),
 						canvas.getHeight()));
 				int canvasXValue = (int) canvasX.getValue();
-				if (canvasXValue * 1.2 > frame.getWidth()) {
+				if (canvasXValue * 1.2 > 600) {
 					int frameWidth = (int) ((int) canvasXValue * 1.2);
 					frame.setSize(new Dimension(frameWidth, frame.getHeight()));
 				}
@@ -1900,7 +1297,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 						(int) (canvasY.getValue())));
 
 				int canvasYValue = (int) canvasY.getValue();
-				if (canvasYValue * 1.2 > frame.getHeight()) {
+				if (canvasYValue * 1.2 > 600) {
 					int frameHeight = (int) ((int) canvasYValue * 1.2);
 					frame.setSize(new Dimension(frame.getWidth(), frameHeight));
 				}
@@ -1909,7 +1306,9 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		});
 		size.add(canvasX);
 		size.add(canvasY);
-		size.add(new JPanel());
+		JPanel tmp = new JPanel();
+		tmp.setBackground(new Color(200, 233, 255));
+		size.add(tmp);
 		size.add(Box.createHorizontalGlue());
 
 		JSeparator sepa = new JSeparator();
@@ -1919,7 +1318,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		menuPanel.add(size);
 		menuIconPanel.add(menuPanel);
 		menuIconPanel.add(sepa);
-		menuIconPanel.setBackground(new Color(238, 238, 238));
+		menuIconPanel.setBackground(new Color(200, 233, 255));
 
 		this.add(menuIconPanel);
 	}
@@ -1977,11 +1376,16 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				try {
-					undo();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				if (canvas.items.isEmpty() && selection == null) {
+					undoItem.setEnabled(false);
+					frame.repaint();
+				} else {
+					try {
+						undo();
+						repaintUndo();
+					} catch (IOException error) {
+						error.printStackTrace();
+					}
 				}
 			}
 		});
@@ -2210,9 +1614,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			deselect(selection);
 			selection = null;
 
-			menuPanel.setVisible(false);
-			menu.setVisible(false);
-
 		}
 		// System.out.println(data);
 		if (fileChoosen != null) {
@@ -2239,7 +1640,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		} catch (Exception e) {
 		}
 
-		menuPanel.setVisible(true);
 		System.out.println("sauvegarde fin");
 	}
 

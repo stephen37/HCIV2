@@ -26,7 +26,7 @@ public class SaveIconButton extends JButton {
 		this.setIcon(icon);
 		this.setBackground(Color.WHITE);
 		this.setMaximumSize(new Dimension(30,30));
-		this.setBackground(new Color(238,238,238));
+		this.setBackground(new Color(200,233,255));
 		this.setBorderPainted(false);
 		this.setFocusPainted(false);
 		this.addMouseListener(new MouseListener() {

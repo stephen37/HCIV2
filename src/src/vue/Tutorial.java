@@ -38,6 +38,7 @@ public class Tutorial extends JFrame {
 	BufferedImage toolbarAnimationsImage;
 	BufferedImage pieMenuDrawings;
 	BufferedImage pieMenuAnimations;
+	BufferedImage pieMenu;
 
 	public Tutorial() {
 		// this.setUndecorated(true);
@@ -56,6 +57,7 @@ public class Tutorial extends JFrame {
 					"./ImagesTuto/PieMenu_animations.png"));
 			pieMenuAnimations = ImageIO.read(new File(
 					"./ImagesTuto/PieMenu_Dessin.png"));
+			pieMenu = ImageIO.read(new File("./ImagesTuto/PieMenu.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -172,6 +174,7 @@ public class Tutorial extends JFrame {
 		JTextArea textArea = new JTextArea();
 		textArea.setBackground(mainPanel.getBackground());
 		textArea.setText("For the toolbar, there are two parts. \nThe first part is Drawings, the second one is Animations. In drawings, you can draw some basic shapes,\nyou can change the color of an object, you can also delete an object, clone it or resize it.\n");
+		textArea.setEditable(false);
 		gb.gridy = 1;
 		gb.insets = new Insets(10, 0, 10, 0);
 		mainPanel.add(textArea, gb);
@@ -223,6 +226,7 @@ public class Tutorial extends JFrame {
 		JTextArea textArea = new JTextArea();
 		textArea.setBackground(mainPanel.getBackground());
 		textArea.setText("In Animations, you can choose to anime an object horizontally or vertically, you can make it blink too.\nIt is also possible to add some decorations, you can add wind and / or snow as decorations.\n");
+		textArea.setEditable(false);
 		gb.gridy = 1;
 		gb.insets = new Insets(10, 0, 10, 0);
 		mainPanel.add(textArea, gb);
@@ -250,6 +254,173 @@ public class Tutorial extends JFrame {
 				initTutoToolbar2();
 			}
 		});
+
+		nextButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				initTutoPieMenu();
+			}
+		});
+		this.revalidate();
+		// getContentPane().setBackground(backgroundColor);
+
+	}
+
+	public void initTutoPieMenu() {
+
+		getContentPane().removeAll();
+		JPanel mainPanel = new JPanel();
+		GridBagConstraints gb = new GridBagConstraints();
+		gb.anchor = GridBagConstraints.CENTER;
+		gb.gridheight = 1;
+		gb.gridwidth = 1;
+		gb.gridx = 0;
+		gb.gridy = 0;
+		mainPanel.setLayout(new GridBagLayout());
+		// mainPanel.setLayout(new GridLayout(3, 1));
+
+		JPanel imagePanel = new JPanel();
+		JLabel imageLabel = new JLabel(new ImageIcon(pieMenu));
+		imagePanel.add(imageLabel);
+		mainPanel.add(imagePanel, gb);
+		JTextArea textArea = new JTextArea();
+		textArea.setBackground(mainPanel.getBackground());
+		textArea.setText("You can get the same tools that you have in the toolbar by using a Pie-Menu, in order to show it, you simply have to do a right click and it will appear.");
+		textArea.setEditable(false);
+		gb.gridy = 1;
+		gb.insets = new Insets(10, 0, 10, 0);
+		mainPanel.add(textArea, gb);
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new BorderLayout());
+		JButton backButton = new JButton("<- Back");
+		JButton nextButton = new JButton("Next ->");
+		JButton skipButton = new JButton("Skip 2");
+		JPanel duoButtonPanel = new JPanel();
+		duoButtonPanel.setLayout(new GridLayout(1, 3));
+		duoButtonPanel.add(backButton, 0);
+		duoButtonPanel.add(nextButton, 1);
+		duoButtonPanel.add(skipButton, 2);
+		buttonPanel.add(duoButtonPanel, BorderLayout.LINE_END);
+		gb.anchor = GridBagConstraints.SOUTHEAST;
+		gb.gridy = 2;
+		mainPanel.add(buttonPanel, gb);
+		getContentPane().add(mainPanel);
+
+		backButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				initTutoToolbar3();
+			}
+		});
+		this.revalidate();
+		// getContentPane().setBackground(backgroundColor);
+
+	}
+
+	public void initTutoPieMenu2() {
+
+		getContentPane().removeAll();
+		JPanel mainPanel = new JPanel();
+		GridBagConstraints gb = new GridBagConstraints();
+		gb.anchor = GridBagConstraints.CENTER;
+		gb.gridheight = 1;
+		gb.gridwidth = 1;
+		gb.gridx = 0;
+		gb.gridy = 0;
+		mainPanel.setLayout(new GridBagLayout());
+		// mainPanel.setLayout(new GridLayout(3, 1));
+
+		JPanel imagePanel = new JPanel();
+		JLabel imageLabel = new JLabel(new ImageIcon(pieMenuDrawings));
+		imagePanel.add(imageLabel);
+		mainPanel.add(imagePanel, gb);
+		JTextArea textArea = new JTextArea();
+		textArea.setBackground(mainPanel.getBackground());
+		textArea.setText("You can draw some objects the same way as in the toolbar when you go on the Drawing part.");
+		textArea.setEditable(false);
+		gb.gridy = 1;
+		gb.insets = new Insets(10, 0, 10, 0);
+		mainPanel.add(textArea, gb);
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new BorderLayout());
+		JButton backButton = new JButton("<- Back");
+		JButton nextButton = new JButton("Next ->");
+		JButton skipButton = new JButton("Skip 2");
+		JPanel duoButtonPanel = new JPanel();
+		duoButtonPanel.setLayout(new GridLayout(1, 3));
+		duoButtonPanel.add(backButton, 0);
+		duoButtonPanel.add(nextButton, 1);
+		duoButtonPanel.add(skipButton, 2);
+		buttonPanel.add(duoButtonPanel, BorderLayout.LINE_END);
+		gb.anchor = GridBagConstraints.SOUTHEAST;
+		gb.gridy = 2;
+		mainPanel.add(buttonPanel, gb);
+		getContentPane().add(mainPanel);
+
+		backButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				initTutoToolbar3();
+			}
+		});
+		this.revalidate();
+		// getContentPane().setBackground(backgroundColor);
+	}
+
+	public void initTutoPieMenu3() {
+
+		getContentPane().removeAll();
+		JPanel mainPanel = new JPanel();
+		GridBagConstraints gb = new GridBagConstraints();
+		gb.anchor = GridBagConstraints.CENTER;
+		gb.gridheight = 1;
+		gb.gridwidth = 1;
+		gb.gridx = 0;
+		gb.gridy = 0;
+		mainPanel.setLayout(new GridBagLayout());
+		// mainPanel.setLayout(new GridLayout(3, 1));
+
+		JPanel imagePanel = new JPanel();
+		JLabel imageLabel = new JLabel(new ImageIcon(pieMenuAnimations));
+		imagePanel.add(imageLabel);
+		mainPanel.add(imagePanel, gb);
+		JTextArea textArea = new JTextArea();
+		textArea.setBackground(mainPanel.getBackground());
+		textArea.setText("You can animate these objects when you go to the Animation part.");
+		textArea.setEditable(false);
+		gb.gridy = 1;
+		gb.insets = new Insets(10, 0, 10, 0);
+		mainPanel.add(textArea, gb);
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new BorderLayout());
+		JButton backButton = new JButton("<- Back");
+		JButton nextButton = new JButton("Next ->");
+		JButton skipButton = new JButton("Skip 2");
+		JPanel duoButtonPanel = new JPanel();
+		duoButtonPanel.setLayout(new GridLayout(1, 3));
+		duoButtonPanel.add(backButton, 0);
+		duoButtonPanel.add(nextButton, 1);
+		duoButtonPanel.add(skipButton, 2);
+		buttonPanel.add(duoButtonPanel, BorderLayout.LINE_END);
+		gb.anchor = GridBagConstraints.SOUTHEAST;
+		gb.gridy = 2;
+		mainPanel.add(buttonPanel, gb);
+		getContentPane().add(mainPanel);
+
+		backButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				initTutoToolbar3();
+			}
+		});
 		this.revalidate();
 		// getContentPane().setBackground(backgroundColor);
 
@@ -257,10 +428,6 @@ public class Tutorial extends JFrame {
 
 	public void removeAll() {
 		this.getContentPane().removeAll();
-	}
-
-	public static void main(String[] args) {
-//		new Tutorial();
 	}
 
 }

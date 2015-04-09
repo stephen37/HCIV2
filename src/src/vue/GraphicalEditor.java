@@ -11,6 +11,7 @@ import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
@@ -21,9 +22,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
-import java.awt.event.MouseMotionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -89,10 +88,7 @@ import controleur.UndoIconButton;
  *         Batifol
  */
 
-
-
-//TODO : LE DnD NE FONCTIONNE PLUS 
-//TODO : LA SAUVEGARDE EN IMAGE NE FONCTIONNE PLUS 
+// TODO : LA SAUVEGARDE EN IMAGE NE FONCTIONNE PLUS
 
 @SuppressWarnings({ "unused", "resource", "static-access", "serial",
 		"unchecked" })
@@ -207,8 +203,9 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		// canvas.setBackground(Color.WHITE);
 		// canvas.setPreferredSize(new Dimension(width, height));
 		// this.add(canvas);
-		// new DropTarget(canvas, this);
 		initCanvas();
+		new DropTarget(canvas, this);
+
 		// AJOUT DE L'ANIMATION !!!
 		panel.add(anim);
 
@@ -1154,14 +1151,14 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 
 		JMenuItem pasteItem = new JMenuItem("Paste");
 		editMenu.add(pasteItem);
-//		menuPanel.setBackground(new Color(205, 205, 205));
-		menuPanel.setBackground(new Color(170,223,255));
-		menu.setBackground(new Color(170,223,255));
-		fileMenu.setBackground(new Color(170,223,255));
-		editMenu.setBackground(new Color(170,223,255));
+		// menuPanel.setBackground(new Color(205, 205, 205));
+		menuPanel.setBackground(new Color(170, 223, 255));
+		menu.setBackground(new Color(170, 223, 255));
+		fileMenu.setBackground(new Color(170, 223, 255));
+		editMenu.setBackground(new Color(170, 223, 255));
 
 		JMenuItem helpItem = new JMenuItem("Help");
-		helpItem.setBackground(new Color(170,223,255));
+		helpItem.setBackground(new Color(170, 223, 255));
 		menu.add(helpItem);
 
 		/************ Listeners ***********/
@@ -1237,7 +1234,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				// TODO Auto-generated method stub
 				Tutorial.prefs.putBoolean("checkbox", false);
 				Tutorial tuto = new Tutorial();
-//				 tuto.prefs.putBoolean("checkbox", false);
+				// tuto.prefs.putBoolean("checkbox", false);
 			}
 		});
 	}

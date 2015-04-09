@@ -13,8 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.prefs.Preferences;
 
-import javafx.scene.layout.Border;
-
 import javax.imageio.ImageIO;
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
@@ -30,7 +28,7 @@ import javax.swing.JTextArea;
  * @author Thibault Soret & stephen Batifol
  *
  */
-public class Tutorial extends JFrame {
+public class Help extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JButton jButton1;
@@ -44,48 +42,38 @@ public class Tutorial extends JFrame {
 	BufferedImage pieMenuDrawings;
 	BufferedImage pieMenuAnimations;
 	BufferedImage pieMenu;
-	public static Preferences prefs;
 	boolean selected = false;
 
-	public Tutorial() {
+	public Help() {
 
-		prefs = Preferences.userNodeForPackage(this.getClass());
-		 prefs.putBoolean("checkbox", false);
-		if (prefs.getBoolean("checkbox", true)) {
-			System.out.println("checkbox dans pref = true");
-//			ToolBar tool = new ToolBar();
-			new GraphicalEditor("Editor 2.0", 1400, 900, new ToolBar());
-//			tool.setVisible(true);
-		} else {
-			// this.setUndecorated(true);
-			this.setVisible(true);
-			// this.setSize(new Dimension(1400, 900));
-			this.setLocation(170, 0);
-			// this.getContentPane().setBackground(backgroundColor);
-			// initComponents();
+		// this.setUndecorated(true);
+		this.setVisible(true);
+		// this.setSize(new Dimension(1400, 900));
+		this.setLocation(170, 0);
+		// this.getContentPane().setBackground(backgroundColor);
+		// initComponents();
 
-			try {
-				toolbarDrawingImage = ImageIO.read(new File(
-						"./ImagesTuto/toolbar.png"));
-				toolbarAnimationsImage = ImageIO.read(new File(
-						"./ImagesTuto/toolbar_animations.png"));
-				pieMenuDrawings = ImageIO.read(new File(
-						"./ImagesTuto/PieMenu_animations.png"));
-				pieMenuAnimations = ImageIO.read(new File(
-						"./ImagesTuto/PieMenu_Dessin.png"));
-				pieMenu = ImageIO.read(new File(
-						"./ImagesTuto/PieMenu_short.png"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			setVisible(true);
-			setSize(1050, 600);
-			initTuto();
-			// initTutoToolbar();
-			// initTutoToolbar2();
-			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		try {
+			toolbarDrawingImage = ImageIO.read(new File(
+					"./ImagesTuto/toolbar.png"));
+			toolbarAnimationsImage = ImageIO.read(new File(
+					"./ImagesTuto/toolbar_animations.png"));
+			pieMenuDrawings = ImageIO.read(new File(
+					"./ImagesTuto/PieMenu_animations.png"));
+			pieMenuAnimations = ImageIO.read(new File(
+					"./ImagesTuto/PieMenu_Dessin.png"));
+			pieMenu = ImageIO.read(new File("./ImagesTuto/PieMenu_short.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		setVisible(true);
+		setSize(1050, 600);
+		initTuto();
+		// initTutoToolbar();
+		// initTutoToolbar2();
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
 	}
 
 	public void initTuto() {
@@ -107,8 +95,8 @@ public class Tutorial extends JFrame {
 		mainPanel.add(imagePanel, gb);
 		JTextArea textArea = new JTextArea();
 		textArea.setBackground(mainPanel.getBackground());
-		textArea.setText("Welcome to the tutorial of this software.\n"
-				+ "If you want to skip it, press Skip, otherwise press Next");
+		textArea.setText("Welcome to the help for this software.\n"
+				+ "Press Next to learn more.");
 		textArea.setEditable(false);
 		gb.gridy = 1;
 		gb.insets = new Insets(10, 0, 10, 0);
@@ -117,10 +105,6 @@ public class Tutorial extends JFrame {
 		buttonPanel.setLayout(new BorderLayout());
 		JButton nextButton = new JButton("Next ->");
 		JButton skipButton = new JButton("Skip");
-		JCheckBox checkBox = new JCheckBox("Do not show this screen next time.");
-		JPanel checkBoxPanel = new JPanel();
-		checkBoxPanel.setLayout(new BorderLayout());
-		checkBoxPanel.add(checkBox, BorderLayout.EAST);
 		JPanel duoButtonPanel = new JPanel();
 		duoButtonPanel.setLayout(new GridLayout(1, 2));
 		duoButtonPanel.add(nextButton, 0);
@@ -129,26 +113,9 @@ public class Tutorial extends JFrame {
 		gb.anchor = GridBagConstraints.SOUTHEAST;
 		gb.gridy = 2;
 		mainPanel.add(buttonPanel, gb);
-		gb.anchor = GridBagConstraints.SOUTHWEST;
-		mainPanel.add(checkBoxPanel, gb);
 		getContentPane().add(mainPanel);
 
-		checkBox.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				AbstractButton abstractButton = (AbstractButton) e.getSource();
-				selected = abstractButton.getModel().isSelected();
-				if (selected) {
-					prefs.putBoolean("checkbox", true);
-					System.out.println(prefs.getBoolean("checkbox", true));
-				} else {
-					prefs.putBoolean("checkbox", false);
-					System.out.println("non selectionné");
-				}
-			}
-		});
+		
 		nextButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -163,9 +130,6 @@ public class Tutorial extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				dispose();
-				ToolBar tool = new ToolBar();
-				new GraphicalEditor("Editor 2.0", 1400, 900, tool);
-				tool.setVisible(true);
 			}
 		});
 		this.revalidate();
@@ -303,9 +267,6 @@ public class Tutorial extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				dispose();
-				ToolBar tool = new ToolBar();
-				new GraphicalEditor("Editor 2.0", 1400, 900, tool);
-				tool.setVisible(true);
 			}
 		});
 		backButton.addActionListener(new ActionListener() {
@@ -383,9 +344,6 @@ public class Tutorial extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				dispose();
-				ToolBar tool = new ToolBar();
-				new GraphicalEditor("Editor 2.0", 1400, 900, tool);
-				tool.setVisible(true);
 			}
 		});
 		this.revalidate();
@@ -455,9 +413,6 @@ public class Tutorial extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				dispose();
-				ToolBar tool = new ToolBar();
-				new GraphicalEditor("Editor 2.0", 1400, 900, tool);
-				tool.setVisible(true);
 			}
 		});
 		this.revalidate();
@@ -528,9 +483,6 @@ public class Tutorial extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				dispose();
-				ToolBar tool = new ToolBar();
-				new GraphicalEditor("Editor 2.0", 1400, 900, tool);
-				tool.setVisible(true);
 			}
 		});
 		this.revalidate();
@@ -590,9 +542,6 @@ public class Tutorial extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				dispose();
-				ToolBar tool = new ToolBar();
-				new GraphicalEditor("Editor 2.0", 1400, 900, tool);
-				tool.setVisible(true);
 			}
 		});
 

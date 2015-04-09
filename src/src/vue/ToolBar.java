@@ -72,6 +72,7 @@ public class ToolBar extends JFrame {
 
 		panel = new JPanel();
 		ongletPan = new JTabbedPane();
+		
 
 		initDessin();
 		initAnimation();
@@ -89,6 +90,7 @@ public class ToolBar extends JFrame {
 	// Initialise le panel de l'onglet "Dessin"
 	public void initDessin() {
 		dessin = new JPanel();
+		dessin.setBackground(new Color(200, 233, 255));
 		dessin.setLayout(new GridLayout(1, 3, 5, 5));
 
 		/*********** Boutons ***********/
@@ -151,14 +153,18 @@ public class ToolBar extends JFrame {
 		/*********** Panels ***********/
 		// Panel pour les boutons de formes
 		JPanel boutonPanel = new JPanel();
+		boutonPanel.setBackground(new Color(200, 233, 255));
 		boutonPanel.setLayout(new BoxLayout(boutonPanel, BoxLayout.Y_AXIS));
 		JPanel bt = new JPanel();
+		bt.setBackground(new Color(200, 233, 255));
 		bt.setLayout(new GridLayout(2, 3, 2, 2));
 
 		// Panel pour les couleurs
 		JPanel couleurPanel = new JPanel();
+		couleurPanel.setBackground(new Color(200, 233, 255));
 		couleurPanel.setLayout(new BoxLayout(couleurPanel, BoxLayout.Y_AXIS));
 		JPanel cl = new JPanel();
+		cl.setBackground(new Color(200, 233, 255));
 		cl.setLayout(new GridLayout(1, 2, 2, 2));
 		// Interieur
 		JPanel fillPan = new JPanel();
@@ -173,22 +179,24 @@ public class ToolBar extends JFrame {
 
 		// Panel pour les boutons d'actions
 		JPanel actionPanel = new JPanel();
+		actionPanel.setBackground(new Color(200, 233, 255));
 		actionPanel.setLayout(new BoxLayout(actionPanel, BoxLayout.Y_AXIS));
 		JPanel at = new JPanel();
+		at.setBackground(new Color(200, 233, 255));
 		at.setLayout(new GridLayout(2, 3, 2, 2));
 
 		/*********** Labels ***********/
 		// Label 'Forme'
 		JLabel labelForme = new JLabel("Shapes");
-		labelForme.setForeground(Color.gray);
+		labelForme.setForeground(Color.DARK_GRAY);
 
 		// Label 'Couleur'
 		JLabel labelCouleurs = new JLabel("Colours");
-		labelCouleurs.setForeground(Color.gray);
+		labelCouleurs.setForeground(Color.DARK_GRAY);
 
 		// Label 'Action'
 		JLabel labelAction = new JLabel("Actions");
-		labelAction.setForeground(Color.gray);
+		labelAction.setForeground(Color.DARK_GRAY);
 
 		/*********** Placement ***********/
 		// Formes
@@ -214,7 +222,7 @@ public class ToolBar extends JFrame {
 		at.add(createOperation("Delete "));
 		at.add(createOperation(" Clone "));
 		at.add(createOperation("Resize"));
-		at.add(createOperation("Rotation"));
+	//	at.add(createOperation("Rotation"));
 		actionPanel.add(at);
 
 		/*********** Ajout ***********/
@@ -228,6 +236,7 @@ public class ToolBar extends JFrame {
 	// Initialise le panel de l'onglet "Animation"
 	public void initAnimation() {
 		animation = new JPanel();
+		animation.setBackground(new Color(200, 233, 255));
 		animation.setLayout(new GridLayout(1, 3, 5, 5));
 
 		/*********** Boutons ***********/
@@ -260,7 +269,9 @@ public class ToolBar extends JFrame {
 		});
 		// CheckBox permettant de lancer et stoper l'animation
 		startCheckBox = new JCheckBox("Start", false);
+		startCheckBox.setBackground(new Color(200, 233, 255));
 		stopCheckBox = new JCheckBox("Stop", true);
+		stopCheckBox.setBackground(new Color(200, 233, 255));
 		startCheckBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -288,7 +299,9 @@ public class ToolBar extends JFrame {
 
 		// CheckBox pour les animations de decors Vent/Neige
 		ventCheckBox = new JCheckBox("Wind", false);
+		ventCheckBox.setBackground(new Color(200, 233, 255));
 		neigeCheckBox = new JCheckBox("Snow", false);
+		neigeCheckBox.setBackground(new Color(200, 233, 255));
 		ventCheckBox.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -314,49 +327,58 @@ public class ToolBar extends JFrame {
 		/*********** Panels ***********/
 		// Boutons
 		JPanel boutonPanel = new JPanel();
+		boutonPanel.setBackground(new Color(200, 233, 255));
 		boutonPanel.setLayout(new BoxLayout(boutonPanel, BoxLayout.Y_AXIS));
 		JPanel bt = new JPanel();
+		bt.setBackground(new Color(200, 233, 255));
 		bt.setLayout(new GridLayout(1, 3, 2, 2));
 
 		// CheckBox start/stop
 		JPanel checkBoxPanel = new JPanel();
+		checkBoxPanel.setBackground(new Color(200, 233, 255));
 		checkBoxPanel.setLayout(new BoxLayout(checkBoxPanel, BoxLayout.Y_AXIS));
 		JPanel cb = new JPanel();
+		cb.setBackground(new Color(200, 233, 255));
 		cb.setLayout(new BoxLayout(cb, BoxLayout.Y_AXIS));
 
 		// CheckBox Vent/Neige
 		JPanel decorPanel = new JPanel();
+		decorPanel.setBackground(new Color(200, 233, 255));
 		decorPanel.setLayout(new BoxLayout(decorPanel, BoxLayout.Y_AXIS));
 		JPanel dPan = new JPanel();
+		dPan.setBackground(new Color(200, 233, 255));
 		dPan.setLayout(new BoxLayout(dPan, BoxLayout.Y_AXIS));
 
 		// Slider
 		JPanel slidPanel = new JPanel();
+		slidPanel.setBackground(new Color(200, 233, 255));
 		slidPanel.setLayout(new BoxLayout(slidPanel, BoxLayout.Y_AXIS));
 
 		// CheckBox & Slider
 		JPanel boxNSlid = new JPanel();
+		boxNSlid.setBackground(new Color(200, 233, 255));
 		boxNSlid.setLayout(new BoxLayout(boxNSlid, BoxLayout.X_AXIS));
 
 		/*********** Labels ***********/
 		// Boutons
 		JLabel animLabel = new JLabel("Animations");
-		animLabel.setForeground(Color.LIGHT_GRAY);
+		animLabel.setForeground(Color.DARK_GRAY);
 
 		// CheckBox Start/Stop
 		JLabel lancLabel = new JLabel("Start");
-		lancLabel.setForeground(Color.LIGHT_GRAY);
+		lancLabel.setForeground(Color.DARK_GRAY);
 
 		// CheckBox Vent/Neige
 		JLabel decorLabel = new JLabel("Decorations");
-		decorLabel.setForeground(Color.LIGHT_GRAY);
+		decorLabel.setForeground(Color.DARK_GRAY);
 
 		// Vitesse
 		JLabel vitLabel = new JLabel("Speed");
-		vitLabel.setForeground(Color.LIGHT_GRAY);
+		vitLabel.setForeground(Color.DARK_GRAY);
 
 		/*********** Slider ***********/
 		slidVitesse = new JSlider(1, 9);
+		slidVitesse.setBackground(new Color(200, 233, 255));
 		slidVitesse.setMinorTickSpacing(1);
 		slidVitesse.setMajorTickSpacing(4);
 		slidVitesse.setPaintTicks(true);

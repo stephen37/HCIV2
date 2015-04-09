@@ -1232,8 +1232,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				Tutorial.prefs.putBoolean("checkbox", false);
-				Tutorial tuto = new Tutorial();
+				Help help = new Help();
 				// tuto.prefs.putBoolean("checkbox", false);
 			}
 		});
@@ -1624,17 +1623,21 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		}
 
 		JFrame img = new JFrame();
+		img.setVisible(true);
 		img.setSize(canvas.getWidth(), canvas.getHeight());
 		PersistentCanvas tmp = new PersistentCanvas(canvas);
 		img.add(tmp);
 		BufferedImage image = new BufferedImage(img.getSize().width,
 				img.getSize().height, BufferedImage.TYPE_INT_ARGB);
 		Graphics g = image.createGraphics();
-		img.paint(g);
+		g.drawImage(image, 0, 0, this);
+		//		img.paint(g);
 		g.dispose();
 		try {
-			ImageIO.write(image, "png", new File("test.png"));
+			File saveGros =  new File(fileChoosen.getName()+".png");
+			ImageIO.write(image, "png", saveGros);
 		} catch (Exception e) {
+			System.out.println("CA MARCHE PAAAA");
 		}
 
 		System.out.println("sauvegarde fin");

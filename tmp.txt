@@ -1,1 +1,1 @@
-5 -341 -100 /home/stephen/Documents/Developpement/ProgInteractive/ProjetV2/Images/mouse.jpg	
+2 192 127 543 403 0 0 0 192 192 192	

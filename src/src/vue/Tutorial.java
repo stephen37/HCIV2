@@ -50,12 +50,12 @@ public class Tutorial extends JFrame {
 	public Tutorial() {
 
 		prefs = Preferences.userNodeForPackage(this.getClass());
-		 prefs.putBoolean("checkbox", false);
+		// prefs.putBoolean("checkbox", false);
 		if (prefs.getBoolean("checkbox", true)) {
 			System.out.println("checkbox dans pref = true");
-//			ToolBar tool = new ToolBar();
+			// ToolBar tool = new ToolBar();
 			new GraphicalEditor("Editor 2.0", 1400, 900, new ToolBar());
-//			tool.setVisible(true);
+			// tool.setVisible(true);
 		} else {
 			// this.setUndecorated(true);
 			this.setVisible(true);

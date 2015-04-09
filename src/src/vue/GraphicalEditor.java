@@ -215,6 +215,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		 * + s pour sauvegarder, Ctrl + O pour ouvrir un fichier, Ctrl + z pour
 		 * annuler l'action précédente Ctrl + V pour copier, coller un fichier
 		 */
+		this.setFocusable(true);
 		this.addKeyListener(this);
 		pack();
 		updateTitle();
@@ -1108,7 +1109,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 						+ "," + e.getY() + " ||");
 			}
 		});
-		this.addKeyListener(this);
 
 		// pane.addKeyListener(keyboardListener);
 		pack();
@@ -1169,7 +1169,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			public void actionPerformed(ActionEvent e) {
 				try {
 					open();
-				} catch (IOException | NullPointerException e1) {
+				} catch (NullPointerException e1) {
 					// e1.printStackTrace();
 				}
 			}
@@ -1336,7 +1336,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				// TODO Auto-generated method stub
 				try {
 					open();
-				} catch (IOException | NullPointerException e1) {
+				} catch (NullPointerException e1) {
 					// TODO Auto-generated catch block
 					// e1.printStackTrace();
 				}
@@ -1631,10 +1631,10 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				img.getSize().height, BufferedImage.TYPE_INT_ARGB);
 		Graphics g = image.createGraphics();
 		g.drawImage(image, 0, 0, this);
-		//		img.paint(g);
+		// img.paint(g);
 		g.dispose();
 		try {
-			File saveGros =  new File(fileChoosen.getName()+".png");
+			File saveGros = new File(fileChoosen.getName() + ".png");
 			ImageIO.write(image, "png", saveGros);
 		} catch (Exception e) {
 			System.out.println("CA MARCHE PAAAA");
@@ -1911,110 +1911,121 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		readFile.close();
 	}
 
-	public void open() throws IOException {
-		System.out.println("open debut");
-		canvas.removeAll();
-		JFileChooser fileChooser = new JFileChooser(".");
-		fileChooser.showOpenDialog(null);
-		File fichier = fileChooser.getSelectedFile();
-		String fileName = fichier.getName();
-		BufferedReader readFile = new BufferedReader(new FileReader(fileName));
-		String line = readFile.readLine();
-		fileChoosen = fichier;
+	public void open() {
+		try {
+			System.out.println("open debut");
+			canvas.removeAll();
+			JFileChooser fileChooser = new JFileChooser(".");
+			fileChooser.showOpenDialog(null);
+			File fichier = fileChooser.getSelectedFile();
+			String fileName = fichier.getName();
+			BufferedReader readFile = new BufferedReader(new FileReader(
+					fileName));
+			String line = readFile.readLine();
+			fileChoosen = fichier;
 
-		while (line != null) {
-			String[] itemList = line.split("\t");
-			line = readFile.readLine();
-			for (String item : itemList) {
-				String[] paramList = item.split(" ");
-				if (Integer.parseInt(paramList[0]) == 1) {
-					RectangleItem canvasItem = new RectangleItem(
-							canvas,
-							new Color(
-									Integer.parseInt(paramList[paramList.length - 1 - 5]),
-									Integer.parseInt(paramList[paramList.length - 1 - 4]),
-									Integer.parseInt(paramList[paramList.length - 1 - 3])),
-							new Color(
-									Integer.parseInt(paramList[paramList.length - 1 - 2]),
-									Integer.parseInt(paramList[paramList.length - 1 - 1]),
-									Integer.parseInt(paramList[paramList.length - 1])),
-							new Point(Integer.parseInt(paramList[1]), Integer
-									.parseInt(paramList[2])), 5);
-					canvasItem.update(new Point(Integer.parseInt(paramList[3]),
-							Integer.parseInt(paramList[4])));
-					canvas.addItem(canvasItem);
-				} else if (Integer.parseInt(paramList[0]) == 2) {
-					CercleItem canvasItem = new CercleItem(
-							canvas,
-							new Color(
-									Integer.parseInt(paramList[paramList.length - 1 - 5]),
-									Integer.parseInt(paramList[paramList.length - 1 - 4]),
-									Integer.parseInt(paramList[paramList.length - 1 - 3])),
-							new Color(
-									Integer.parseInt(paramList[paramList.length - 1 - 2]),
-									Integer.parseInt(paramList[paramList.length - 1 - 1]),
-									Integer.parseInt(paramList[paramList.length - 1])),
-							new Point(Integer.parseInt(paramList[1]), Integer
-									.parseInt(paramList[2])), 5);
-					canvasItem.update(new Point(Integer.parseInt(paramList[4]),
-							Integer.parseInt(paramList[3])));
-					canvas.addItem(canvasItem);
-				} else if (Integer.parseInt(paramList[0]) == 3) {
-					LineItem canvasItem = new LineItem(
-							canvas,
-							new Color(
-									Integer.parseInt(paramList[paramList.length - 1 - 5]),
-									Integer.parseInt(paramList[paramList.length - 1 - 4]),
-									Integer.parseInt(paramList[paramList.length - 1 - 3])),
-							new Color(
-									Integer.parseInt(paramList[paramList.length - 1 - 2]),
-									Integer.parseInt(paramList[paramList.length - 1 - 1]),
-									Integer.parseInt(paramList[paramList.length - 1])),
-							new Point(Integer.parseInt(paramList[1]), Integer
-									.parseInt(paramList[2])), 5);
-					canvasItem.update(new Point(Integer.parseInt(paramList[3]),
-							Integer.parseInt(paramList[4])));
-					canvas.addItem(canvasItem);
-				} else if (Integer.parseInt(paramList[0]) == 4) {
-					PathItem canvasItem = new PathItem(
-							canvas,
-							new Color(
-									Integer.parseInt(paramList[paramList.length - 1 - 5]),
-									Integer.parseInt(paramList[paramList.length - 1 - 4]),
-									Integer.parseInt(paramList[paramList.length - 1 - 3])),
-							new Color(
-									Integer.parseInt(paramList[paramList.length - 1 - 2]),
-									Integer.parseInt(paramList[paramList.length - 1 - 1]),
-									Integer.parseInt(paramList[paramList.length - 1])),
-							new Point(Integer.parseInt(paramList[1]), Integer
-									.parseInt(paramList[2])), 5);
-					for (int i = 5; i < paramList.length - 1 - 5; i += 2) {
+			while (line != null) {
+				String[] itemList = line.split("\t");
+				line = readFile.readLine();
+				for (String item : itemList) {
+					String[] paramList = item.split(" ");
+					if (Integer.parseInt(paramList[0]) == 1) {
+						RectangleItem canvasItem = new RectangleItem(
+								canvas,
+								new Color(
+										Integer.parseInt(paramList[paramList.length - 1 - 5]),
+										Integer.parseInt(paramList[paramList.length - 1 - 4]),
+										Integer.parseInt(paramList[paramList.length - 1 - 3])),
+								new Color(
+										Integer.parseInt(paramList[paramList.length - 1 - 2]),
+										Integer.parseInt(paramList[paramList.length - 1 - 1]),
+										Integer.parseInt(paramList[paramList.length - 1])),
+								new Point(Integer.parseInt(paramList[1]),
+										Integer.parseInt(paramList[2])), 5);
 						canvasItem.update(new Point(Integer
-								.parseInt(paramList[i]), Integer
-								.parseInt(paramList[i + 1])));
+								.parseInt(paramList[3]), Integer
+								.parseInt(paramList[4])));
+						canvas.addItem(canvasItem);
+					} else if (Integer.parseInt(paramList[0]) == 2) {
+						CercleItem canvasItem = new CercleItem(
+								canvas,
+								new Color(
+										Integer.parseInt(paramList[paramList.length - 1 - 5]),
+										Integer.parseInt(paramList[paramList.length - 1 - 4]),
+										Integer.parseInt(paramList[paramList.length - 1 - 3])),
+								new Color(
+										Integer.parseInt(paramList[paramList.length - 1 - 2]),
+										Integer.parseInt(paramList[paramList.length - 1 - 1]),
+										Integer.parseInt(paramList[paramList.length - 1])),
+								new Point(Integer.parseInt(paramList[1]),
+										Integer.parseInt(paramList[2])), 5);
+						canvasItem.update(new Point(Integer
+								.parseInt(paramList[4]), Integer
+								.parseInt(paramList[3])));
+						canvas.addItem(canvasItem);
+					} else if (Integer.parseInt(paramList[0]) == 3) {
+						LineItem canvasItem = new LineItem(
+								canvas,
+								new Color(
+										Integer.parseInt(paramList[paramList.length - 1 - 5]),
+										Integer.parseInt(paramList[paramList.length - 1 - 4]),
+										Integer.parseInt(paramList[paramList.length - 1 - 3])),
+								new Color(
+										Integer.parseInt(paramList[paramList.length - 1 - 2]),
+										Integer.parseInt(paramList[paramList.length - 1 - 1]),
+										Integer.parseInt(paramList[paramList.length - 1])),
+								new Point(Integer.parseInt(paramList[1]),
+										Integer.parseInt(paramList[2])), 5);
+						canvasItem.update(new Point(Integer
+								.parseInt(paramList[3]), Integer
+								.parseInt(paramList[4])));
+						canvas.addItem(canvasItem);
+					} else if (Integer.parseInt(paramList[0]) == 4) {
+						PathItem canvasItem = new PathItem(
+								canvas,
+								new Color(
+										Integer.parseInt(paramList[paramList.length - 1 - 5]),
+										Integer.parseInt(paramList[paramList.length - 1 - 4]),
+										Integer.parseInt(paramList[paramList.length - 1 - 3])),
+								new Color(
+										Integer.parseInt(paramList[paramList.length - 1 - 2]),
+										Integer.parseInt(paramList[paramList.length - 1 - 1]),
+										Integer.parseInt(paramList[paramList.length - 1])),
+								new Point(Integer.parseInt(paramList[1]),
+										Integer.parseInt(paramList[2])), 5);
+						for (int i = 5; i < paramList.length - 1 - 5; i += 2) {
+							canvasItem.update(new Point(Integer
+									.parseInt(paramList[i]), Integer
+									.parseInt(paramList[i + 1])));
+						}
+						canvas.addItem(canvasItem);
+					} else if (Integer.parseInt(paramList[0]) == 5) {
+						// String data = "";
+						// for (int i = 3; i < paramList.length; i++) {
+						// data += paramList[i];
+						// }
+						// byte[] bytes = dataByte.getBytes("UTF-8");
+						Image img = ImageIO.read(new File(paramList[3]));
+
+						ImageItem canvasItem = new ImageItem(canvas,
+								Color.black, Color.black, new Point(
+										Integer.parseInt(paramList[1]),
+										Integer.parseInt(paramList[2])), img,
+								paramList[3], 5);
+
+						// // canvasItem.setByte(bytes);
+						canvas.addItem(canvasItem);
 					}
-					canvas.addItem(canvasItem);
-				} else if (Integer.parseInt(paramList[0]) == 5) {
-					// String data = "";
-					// for (int i = 3; i < paramList.length; i++) {
-					// data += paramList[i];
-					// }
-					// byte[] bytes = dataByte.getBytes("UTF-8");
-					Image img = ImageIO.read(new File(paramList[3]));
-
-					ImageItem canvasItem = new ImageItem(canvas, Color.black,
-							Color.black, new Point(
-									Integer.parseInt(paramList[1]),
-									Integer.parseInt(paramList[2])), img,
-							paramList[3], 5);
-
-					// // canvasItem.setByte(bytes);
-					canvas.addItem(canvasItem);
 				}
 			}
+			readFile.close();
+			System.out.println("open fin");
+		} catch (NullPointerException e2) {
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			// e.printStackTrace();
 		}
-		readFile.close();
-		System.out.println("open fin");
 	}
 
 	/************************************* KEYLISTENER *****************************/
@@ -2030,13 +2041,17 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_DELETE) {
-			canvas.removeItem(selection);
-			deselect(selection);
-			if (!canvas.items.isEmpty()) {
-				undoItem.setEnabled(true);
-			} else {
-				if (selection != null)
-					undoItem.setEnabled(false);
+			try {
+				canvas.removeItem(selection);
+				deselect(selection);
+				if (!canvas.items.isEmpty()) {
+					undoItem.setEnabled(true);
+				} else {
+					if (selection != null)
+						undoItem.setEnabled(false);
+				}
+			} catch (NullPointerException e1) {
+
 			}
 		}
 
@@ -2052,7 +2067,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				&& ((e.getModifiers() & KeyEvent.CTRL_MASK) != 0)) {
 			try {
 				open();
-			} catch (IOException | NullPointerException e1) {
+			} catch (NullPointerException e1) {
 				// e1.printStackTrace();
 				if (!canvas.items.isEmpty()) {
 					undoItem.setEnabled(true);

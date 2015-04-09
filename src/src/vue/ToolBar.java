@@ -72,7 +72,6 @@ public class ToolBar extends JFrame {
 
 		panel = new JPanel();
 		ongletPan = new JTabbedPane();
-		
 
 		initDessin();
 		initAnimation();
@@ -191,7 +190,7 @@ public class ToolBar extends JFrame {
 		labelForme.setForeground(Color.DARK_GRAY);
 
 		// Label 'Couleur'
-		JLabel labelCouleurs = new JLabel("Colours");
+		JLabel labelCouleurs = new JLabel("Colors");
 		labelCouleurs.setForeground(Color.DARK_GRAY);
 
 		// Label 'Action'
@@ -222,7 +221,7 @@ public class ToolBar extends JFrame {
 		at.add(createOperation("Delete "));
 		at.add(createOperation(" Clone "));
 		at.add(createOperation("Resize"));
-	//	at.add(createOperation("Rotation"));
+		// at.add(createOperation("Rotation"));
 		actionPanel.add(at);
 
 		/*********** Ajout ***********/
@@ -389,7 +388,8 @@ public class ToolBar extends JFrame {
 			public void stateChanged(ChangeEvent e) {
 				if (GraphicalEditor.selection != null) {
 					GraphicalEditor.selection.vitesse = slidVitesse.getValue();
-					GraphicalEditor.infosVitesse.setText("Speed : " + GraphicalEditor.selection.vitesse);
+					GraphicalEditor.infosVitesse.setText("Speed : "
+							+ GraphicalEditor.selection.vitesse);
 				}
 			}
 		});
@@ -459,16 +459,20 @@ public class ToolBar extends JFrame {
 			JPanel p = (JPanel) e.getSource();
 			Color c = p.getBackground();
 			c = JColorChooser.showDialog(null, "Select a color", c);
-			if (GraphicalEditor.selection == null) {
-				p.setBackground(c);
-			} else if (p == outline) {
-				p.setBackground(c);
-				GraphicalEditor.selection.setOutlineColor(c);
-			} else if (p == fill) {
-				p.setBackground(c);
-				GraphicalEditor.selection.setFillColor(c);
+			if (c == null) {
+				mode = "Select/Move";
+			} else {
+				if (GraphicalEditor.selection == null) {
+					p.setBackground(c);
+				} else if (p == outline) {
+					p.setBackground(c);
+					GraphicalEditor.selection.setOutlineColor(c);
+				} else if (p == fill) {
+					p.setBackground(c);
+					GraphicalEditor.selection.setFillColor(c);
+				}
+				repaint();
 			}
-			repaint();
 		}
 	};
 

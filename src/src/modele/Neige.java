@@ -8,11 +8,11 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-public class Neige extends CanvasItem{
-	
+public class Neige extends CanvasItem {
+
 	private String path = "Images/neige.png";
 	private Point firstPoint;
-	
+
 	public Neige(PersistentCanvas c, Point p, int v) {
 		super(c, new Color(1f, 0f, 0f, .0f), new Color(1f, 0f, 0f, .0f), v);
 		File file = new File(path);
@@ -21,7 +21,8 @@ public class Neige extends CanvasItem{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		shape = new Rectangle(p.x, p.y, background.getWidth(null), background.getHeight(null));
+		shape = new Rectangle(p.x, p.y, background.getWidth(null),
+				background.getHeight(null));
 		firstPoint = p;
 	}
 
@@ -71,7 +72,7 @@ public class Neige extends CanvasItem{
 	@Override
 	public void setY(int y) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 }

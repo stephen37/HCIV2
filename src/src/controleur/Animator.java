@@ -14,13 +14,13 @@ import modele.PersistentCanvas;
 
 /**
  * 
- * @author David Bonnet Modifications 	Jeremie Garcia (15-01-2015) 
- * 										Thibault Soret & Stephen Batifol (03-03-2015)
+ * @author David Bonnet Modifications Jeremie Garcia (15-01-2015) Thibault Soret
+ *         & Stephen Batifol
  *
  */
 public class Animator extends JPanel implements ActionListener {
 
-	//Caracteristiques
+	// Caracteristiques
 	private static final long serialVersionUID = 5323355458759714979L;
 	private Timer timer;
 	private int delay;
@@ -30,12 +30,12 @@ public class Animator extends JPanel implements ActionListener {
 	PathAnimation path;
 	ArrayList<PathAnimation> paths;
 
-	//Constructeur 1
+	// Constructeur 1
 	public Animator() {
 		this(30);
 	}
 
-	//Constructeur 2
+	// Constructeur 2
 	public Animator(PersistentCanvas canvas) {
 		this(50);
 		this.canvas = canvas;
@@ -81,7 +81,6 @@ public class Animator extends JPanel implements ActionListener {
 		});
 	}
 
-	
 	public void start() {
 		timer.start();
 	}

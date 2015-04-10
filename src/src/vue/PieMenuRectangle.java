@@ -1,4 +1,4 @@
-package modele;
+package vue;
 
 import java.awt.Color;
 import java.awt.Image;
@@ -10,18 +10,20 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-public class PieMenuAnimation extends CanvasItem{
+import modele.CanvasItem;
+import modele.PersistentCanvas;
+
+public class PieMenuRectangle extends CanvasItem {
 
 	Point firstpoint;
-	String pathImage = "PieMenu/Pie/Pie2AnimationTrans.png";
-
-	public PieMenuAnimation(PersistentCanvas c, Color o, Color f, Point p, int v)
-			throws IOException {
-		super(c, o, f, v);
-		Image img = ImageIO.read(new File(pathImage));
-		shape = new Rectangle(p.x, p.y, img.getWidth(null), img.getHeight(null));
-		firstpoint = p;
-		background = img;
+	String pathImage = "PieMenu/Pie/Pie4RectangleTrans.png";
+	
+	public PieMenuRectangle(PersistentCanvas c, Color o, Color f, Point p, int v) throws IOException{
+			super(c, o, f, v);
+			Image img = ImageIO.read(new File(pathImage));
+			shape = new Rectangle(p.x, p.y, img.getWidth(null), img.getHeight(null));
+			firstpoint = p;
+			background = img;	
 	}
 
 	public CanvasItem duplicate() {
@@ -29,7 +31,7 @@ public class PieMenuAnimation extends CanvasItem{
 	}
 
 	public void update(Point p) {
-
+		
 	}
 
 	public void move(int dx, int dy) {
@@ -39,7 +41,7 @@ public class PieMenuAnimation extends CanvasItem{
 	}
 
 	public String getType() {
-		return "PieMenuAnimation";
+		return "PieMenuRectangle";
 	}
 
 	public ArrayList<Integer> getPoints() {
@@ -61,7 +63,7 @@ public class PieMenuAnimation extends CanvasItem{
 	public int getHeight() {
 		return (int) shape.getBounds().getHeight();
 	}
-
+	
 	public void rotate(int angle) {
 
 	}
@@ -71,6 +73,4 @@ public class PieMenuAnimation extends CanvasItem{
 		// TODO Auto-generated method stub
 		
 	}
-
-	
 }

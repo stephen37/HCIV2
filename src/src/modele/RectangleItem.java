@@ -1,12 +1,9 @@
 package modele;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * @author Nicolas Roussel (roussel@lri.fr)
@@ -14,10 +11,6 @@ import java.util.Iterator;
  */
 public class RectangleItem extends CanvasItem {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	Point firstpoint;
 	Point lastPoint;
 
@@ -91,18 +84,18 @@ public class RectangleItem extends CanvasItem {
 	public int getWidth() {
 		return (int) ((Rectangle) shape).getWidth();
 	}
-	
+
 	public int getHeight() {
 		return (int) ((Rectangle) shape).getHeight();
 	}
-	
-	public void rotate(int angle){
-		
+
+	public void rotate(int angle) {
+
 	}
 
 	@Override
 	public void setY(int y) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

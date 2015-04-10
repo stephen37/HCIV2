@@ -11,13 +11,10 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.prefs.Preferences;
 
 import javax.imageio.ImageIO;
-import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -33,7 +30,6 @@ public class Help extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JButton jButton1;
 	private JButton jButton2;
-	private JLabel jLabel1;
 	Color backgroundColor = new Color(61, 120, 180);
 	JTextArea jTextArea1;
 	JScrollPane jScrollPane1;
@@ -115,7 +111,6 @@ public class Help extends JFrame {
 		mainPanel.add(buttonPanel, gb);
 		getContentPane().add(mainPanel);
 
-		
 		nextButton.addActionListener(new ActionListener() {
 
 			@Override

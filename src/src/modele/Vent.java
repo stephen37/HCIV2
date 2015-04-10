@@ -12,8 +12,8 @@ public class Vent extends CanvasItem {
 
 	private String path = "Images/vent.png";
 	private Point firstPoint;
- 
-	public Vent(PersistentCanvas c, Point p ,int v) {
+
+	public Vent(PersistentCanvas c, Point p, int v) {
 		super(c, new Color(1f, 0f, 0f, .0f), new Color(1f, 0f, 0f, .0f), v);
 		File file = new File(path);
 		try {
@@ -21,7 +21,8 @@ public class Vent extends CanvasItem {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		shape = new Rectangle(p.x, p.y, background.getWidth(null), background.getHeight(null));
+		shape = new Rectangle(p.x, p.y, background.getWidth(null),
+				background.getHeight(null));
 		firstPoint = p;
 	}
 
@@ -68,7 +69,7 @@ public class Vent extends CanvasItem {
 	@Override
 	public void setY(int y) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

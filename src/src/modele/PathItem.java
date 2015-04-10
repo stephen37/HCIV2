@@ -6,11 +6,7 @@ import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
-
-import vue.GraphicalEditor;
-import controleur.Animator;
 
 public class PathItem extends CanvasItem {
 	int x, y;
@@ -57,7 +53,6 @@ public class PathItem extends CanvasItem {
 		}
 		canvas.repaint();
 	}
-
 
 	public void paint(Graphics2D g) {
 		drawShape(g);
@@ -109,7 +104,7 @@ public class PathItem extends CanvasItem {
 		}
 		return maxX - getMinX();
 	}
-	
+
 	public int getHeight() {
 		int maxY;
 		Iterator<Point> iter = getListPoint().iterator();
@@ -120,14 +115,14 @@ public class PathItem extends CanvasItem {
 		}
 		return maxY - getMinX();
 	}
-	
-	public void rotate(int angle){
-		
+
+	public void rotate(int angle) {
+
 	}
 
 	@Override
 	public void setY(int y) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

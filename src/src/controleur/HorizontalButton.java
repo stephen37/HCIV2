@@ -17,46 +17,46 @@ import javax.swing.JButton;
  */
 public class HorizontalButton extends JButton {
 
-	//Caracteristiques
+	// Caracteristiques
 	private static final long serialVersionUID = 1L;
 	private static ImageIcon icon = new ImageIcon("ImagesMain/Horizontal.png");
 
-	//Constructeur
+	// Constructeur
 	public HorizontalButton() {
 		this.setSize(30, 30);
 		this.setIcon(icon);
 		this.setBackground(Color.WHITE);
-		this.setMaximumSize(new Dimension(30,30));
+		this.setMaximumSize(new Dimension(30, 30));
 		this.addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
 				setToolTipText("Make the selected object move horizontally");
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 	}
@@ -65,5 +65,5 @@ public class HorizontalButton extends JButton {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 	}
-	
+
 }

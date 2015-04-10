@@ -14,47 +14,47 @@ import javax.swing.JButton;
  * @author Thibault Soret & Stephen Batifol
  *
  */
-public class CircleButton extends JButton{
+public class CircleButton extends JButton {
 
-	//Caracteristiques
+	// Caracteristiques
 	private static final long serialVersionUID = 1L;
 	private static ImageIcon icon = new ImageIcon("ImagesMain/Ellipse.png");
 
-	//Constructeur
+	// Constructeur
 	public CircleButton() {
 		this.setSize(30, 30);
 		this.setIcon(icon);
 		this.setBackground(Color.WHITE);
 		this.addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
 				setToolTipText("Draw a circle.");
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 	}

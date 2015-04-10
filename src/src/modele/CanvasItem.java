@@ -13,6 +13,7 @@ import java.util.ArrayList;
  * @author Nicolas Roussel (roussel@lri.fr)
  * 
  */
+
 public abstract class CanvasItem {
 
 	protected PersistentCanvas canvas;

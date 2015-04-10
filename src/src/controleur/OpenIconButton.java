@@ -15,28 +15,29 @@ import javax.swing.JButton;
  * @author Thibault Soret & Stephen Batifol
  *
  */
+@SuppressWarnings("serial")
 public class OpenIconButton extends JButton {
 
-	//Caracteristiques
+	// Caracteristiques
 	private static ImageIcon icon = new ImageIcon("ImagesMenu/small_open.png");
 
-	//Constructeur
+	// Constructeur
 	public OpenIconButton() {
 		this.setSize(30, 30);
 		this.setIcon(icon);
 		this.setBackground(Color.WHITE);
 		this.setMaximumSize(new Dimension(30, 30));
-		this.setBackground(new Color(200,233,255));
+		this.setBackground(new Color(200, 233, 255));
 		this.setBorderPainted(false);
 		this.setFocusPainted(false);
 		this.addMouseListener(new MouseListener() {
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				setBorderPainted(false);
 				setFocusPainted(false);
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				setBorderPainted(true);
@@ -46,19 +47,19 @@ public class OpenIconButton extends JButton {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				
+
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				
+
 			}
-		
+
 		});
 	}
 

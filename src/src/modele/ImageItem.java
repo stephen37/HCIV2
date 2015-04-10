@@ -201,7 +201,7 @@ public class ImageItem extends CanvasItem {
 	@Override
 	public void setY(int y) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

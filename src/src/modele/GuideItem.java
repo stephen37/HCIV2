@@ -12,6 +12,7 @@ public class GuideItem extends CanvasItem {
 
 	private double length;
 
+	// Permet de dessiner des guides.
 	public GuideItem(PersistentCanvas c, Color o, Color f, Point p, int speed) {
 		super(c, o, f, speed);
 		length = c.getWidth();
@@ -33,8 +34,6 @@ public class GuideItem extends CanvasItem {
 
 	@Override
 	public void update(Point p) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -43,7 +42,6 @@ public class GuideItem extends CanvasItem {
 		l.y1 += dy;
 		l.y2 += dy;
 		canvas.repaint();
-
 	}
 
 	public Boolean contains(Point p) {
@@ -63,7 +61,6 @@ public class GuideItem extends CanvasItem {
 		g.setStroke(dashed);
 		g.setColor(outline);
 		g.draw(shape);
-
 		if (oldstrk != null)
 			g.setStroke(oldstrk);
 	}
@@ -87,77 +84,42 @@ public class GuideItem extends CanvasItem {
 		// TODO Auto-generated method stub
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see modele.CanvasItem#getType()
-	 */
 	@Override
 	public String getType() {
 		// TODO Auto-generated method stub
 		return "Guide";
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see modele.CanvasItem#getPoints()
-	 */
 	@Override
 	public ArrayList<Integer> getPoints() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see modele.CanvasItem#getMinX()
-	 */
 	@Override
 	public int getMinX() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see modele.CanvasItem#getMinY()
-	 */
 	@Override
 	public int getMinY() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see modele.CanvasItem#getWidth()
-	 */
 	@Override
 	public int getWidth() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see modele.CanvasItem#getHeight()
-	 */
 	@Override
 	public int getHeight() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see modele.CanvasItem#rotate(int)
-	 */
 	@Override
 	public void rotate(int angle) {
 		// TODO Auto-generated method stub

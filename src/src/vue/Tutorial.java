@@ -13,8 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.prefs.Preferences;
 
-import javafx.scene.layout.Border;
-
 import javax.imageio.ImageIO;
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
@@ -33,9 +31,6 @@ import javax.swing.JTextArea;
 public class Tutorial extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JButton jButton1;
-	private JButton jButton2;
-	private JLabel jLabel1;
 	Color backgroundColor = new Color(61, 120, 180);
 	JTextArea jTextArea1;
 	JScrollPane jScrollPane1;
@@ -47,22 +42,18 @@ public class Tutorial extends JFrame {
 	public static Preferences prefs;
 	boolean selected = false;
 
+	// Permet de lancer un tutoriel lors du lancement du logiciel.
+	// On utilise les préférences afin de savoir si l'utilisateur ne souhaite
+	// plus voir le tuto lors du lancement de l'application
 	public Tutorial() {
 
 		prefs = Preferences.userNodeForPackage(this.getClass());
-		// prefs.putBoolean("checkbox", false);
 		if (prefs.getBoolean("checkbox", true)) {
 			System.out.println("checkbox dans pref = true");
-			// ToolBar tool = new ToolBar();
 			new GraphicalEditor("Editor 2.0", 1400, 900, new ToolBar());
-			// tool.setVisible(true);
 		} else {
-			// this.setUndecorated(true);
 			this.setVisible(true);
-			// this.setSize(new Dimension(1400, 900));
 			this.setLocation(170, 0);
-			// this.getContentPane().setBackground(backgroundColor);
-			// initComponents();
 
 			try {
 				toolbarDrawingImage = ImageIO.read(new File(
@@ -76,18 +67,16 @@ public class Tutorial extends JFrame {
 				pieMenu = ImageIO.read(new File(
 						"./ImagesTuto/PieMenu_short.png"));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			setVisible(true);
 			setSize(1050, 600);
 			initTuto();
-			// initTutoToolbar();
-			// initTutoToolbar2();
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		}
 	}
 
+	// Initialise la premiere partie du tutoriel
 	public void initTuto() {
 
 		getContentPane().removeAll();
@@ -99,7 +88,6 @@ public class Tutorial extends JFrame {
 		gb.gridx = 0;
 		gb.gridy = 0;
 		mainPanel.setLayout(new GridBagLayout());
-		// mainPanel.setLayout(new GridLayout(3, 1));
 
 		JPanel imagePanel = new JPanel();
 		JLabel imageLabel = new JLabel(new ImageIcon(toolbarDrawingImage));
@@ -137,7 +125,6 @@ public class Tutorial extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				AbstractButton abstractButton = (AbstractButton) e.getSource();
 				selected = abstractButton.getModel().isSelected();
 				if (selected) {
@@ -153,7 +140,6 @@ public class Tutorial extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				initTutoToolbar2();
 			}
 		});
@@ -161,7 +147,6 @@ public class Tutorial extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				dispose();
 				ToolBar tool = new ToolBar();
 				new GraphicalEditor("Editor 2.0", 1400, 900, tool);
@@ -169,87 +154,10 @@ public class Tutorial extends JFrame {
 			}
 		});
 		this.revalidate();
-		// getContentPane().setBackground(backgroundColor);
 
 	}
 
-	public void initTutoToolbar() {
-		jScrollPane1 = new javax.swing.JScrollPane();
-		jTextArea1 = new javax.swing.JTextArea();
-		jButton1 = new JButton("Next");
-		jButton2 = new JButton("Skip");
-
-		// setBackground(new java.awt.Color(61, 120, 180));
-
-		jTextArea1.setColumns(20);
-		jTextArea1.setRows(5);
-		jTextArea1
-				.setText("For the toolbar, there are two parts. \nThe first part is Drawings, the second one is Animations. In drawings, you can draw some basic shapes,\n you can change the color of an object, you can also delete an object, clone it or resize it.\nIn Animations, you can choose to anime an object horizontally or vertically, you can make it blink too.\nIt is also possible to add some decorations, you can add wind and / or snow as decorations.\n");
-		jScrollPane1.setViewportView(jTextArea1);
-
-		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
-				getContentPane());
-		getContentPane().setLayout(layout);
-		layout.setHorizontalGroup(layout
-				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(
-						layout.createSequentialGroup()
-								.addContainerGap()
-								.addComponent(jScrollPane1,
-										javax.swing.GroupLayout.PREFERRED_SIZE,
-										708,
-										javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addContainerGap(
-										javax.swing.GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE))
-				.addGroup(
-						javax.swing.GroupLayout.Alignment.TRAILING,
-						layout.createSequentialGroup()
-								.addGap(0, 0, Short.MAX_VALUE)
-								.addComponent(jButton1)
-								.addPreferredGap(
-										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-								.addComponent(jButton2)));
-		layout.setVerticalGroup(layout
-				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addGroup(
-						layout.createSequentialGroup()
-								.addGap(101, 101, 101)
-								.addComponent(jScrollPane1,
-										javax.swing.GroupLayout.PREFERRED_SIZE,
-										104,
-										javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(
-										javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-										304, Short.MAX_VALUE)
-								.addGroup(
-										layout.createParallelGroup(
-												javax.swing.GroupLayout.Alignment.BASELINE)
-												.addComponent(jButton1)
-												.addComponent(jButton2))
-								.addContainerGap()));
-
-		jButton1.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				initTutoToolbar2();
-
-			}
-		});
-		jButton2.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				dispose();
-			}
-		});
-		// getContentPane().add(imagePanel);
-		pack();
-	}
-
+	// Initialise la seconde partie du tuto
 	public void initTutoToolbar2() {
 		getContentPane().removeAll();
 		JPanel mainPanel = new JPanel();
@@ -260,7 +168,6 @@ public class Tutorial extends JFrame {
 		gb.gridx = 0;
 		gb.gridy = 0;
 		mainPanel.setLayout(new GridBagLayout());
-		// mainPanel.setLayout(new GridLayout(3, 1));
 
 		JPanel imagePanel = new JPanel();
 		JLabel imageLabel = new JLabel(new ImageIcon(toolbarDrawingImage));
@@ -293,7 +200,6 @@ public class Tutorial extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				initTutoToolbar3();
 			}
 		});
@@ -301,7 +207,6 @@ public class Tutorial extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				dispose();
 				ToolBar tool = new ToolBar();
 				new GraphicalEditor("Editor 2.0", 1400, 900, tool);
@@ -312,15 +217,14 @@ public class Tutorial extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				initTuto();
 			}
 		});
 		this.revalidate();
-		// getContentPane().setBackground(backgroundColor);
 
 	}
 
+	// Initialise la 3eme partie du tuto
 	public void initTutoToolbar3() {
 		getContentPane().removeAll();
 		JPanel mainPanel = new JPanel();
@@ -331,7 +235,6 @@ public class Tutorial extends JFrame {
 		gb.gridx = 0;
 		gb.gridy = 0;
 		mainPanel.setLayout(new GridBagLayout());
-		// mainPanel.setLayout(new GridLayout(3, 1));
 
 		JPanel imagePanel = new JPanel();
 		JLabel imageLabel = new JLabel(new ImageIcon(toolbarAnimationsImage));
@@ -364,7 +267,6 @@ public class Tutorial extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				initTutoToolbar2();
 			}
 		});
@@ -373,7 +275,6 @@ public class Tutorial extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				initTutoPieMenu();
 			}
 		});
@@ -381,7 +282,6 @@ public class Tutorial extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				dispose();
 				ToolBar tool = new ToolBar();
 				new GraphicalEditor("Editor 2.0", 1400, 900, tool);
@@ -389,10 +289,10 @@ public class Tutorial extends JFrame {
 			}
 		});
 		this.revalidate();
-		// getContentPane().setBackground(backgroundColor);
 
 	}
 
+	// Initialise la 4ème partie du tuto
 	public void initTutoPieMenu() {
 
 		getContentPane().removeAll();
@@ -404,7 +304,6 @@ public class Tutorial extends JFrame {
 		gb.gridx = 0;
 		gb.gridy = 0;
 		mainPanel.setLayout(new GridBagLayout());
-		// mainPanel.setLayout(new GridLayout(3, 1));
 
 		JPanel imagePanel = new JPanel();
 		JLabel imageLabel = new JLabel(new ImageIcon(pieMenu));
@@ -437,7 +336,6 @@ public class Tutorial extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				initTutoToolbar3();
 			}
 		});
@@ -445,7 +343,6 @@ public class Tutorial extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				initTutoPieMenu2();
 			}
 		});
@@ -453,7 +350,6 @@ public class Tutorial extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				dispose();
 				ToolBar tool = new ToolBar();
 				new GraphicalEditor("Editor 2.0", 1400, 900, tool);
@@ -461,10 +357,10 @@ public class Tutorial extends JFrame {
 			}
 		});
 		this.revalidate();
-		// getContentPane().setBackground(backgroundColor);
 
 	}
 
+	// Initialise la 5eme partie du tuto
 	public void initTutoPieMenu2() {
 
 		getContentPane().removeAll();
@@ -476,7 +372,6 @@ public class Tutorial extends JFrame {
 		gb.gridx = 0;
 		gb.gridy = 0;
 		mainPanel.setLayout(new GridBagLayout());
-		// mainPanel.setLayout(new GridLayout(3, 1));
 
 		JPanel imagePanel = new JPanel();
 		JLabel imageLabel = new JLabel(new ImageIcon(pieMenuAnimations));
@@ -509,7 +404,6 @@ public class Tutorial extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				initTutoPieMenu();
 			}
 		});
@@ -518,7 +412,6 @@ public class Tutorial extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				initTutoPieMenu3();
 			}
 		});
@@ -526,7 +419,6 @@ public class Tutorial extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				dispose();
 				ToolBar tool = new ToolBar();
 				new GraphicalEditor("Editor 2.0", 1400, 900, tool);
@@ -534,9 +426,9 @@ public class Tutorial extends JFrame {
 			}
 		});
 		this.revalidate();
-		// getContentPane().setBackground(backgroundColor);
 	}
 
+	// Initialise la 6eme partie du tuto
 	public void initTutoPieMenu3() {
 
 		getContentPane().removeAll();
@@ -548,7 +440,6 @@ public class Tutorial extends JFrame {
 		gb.gridx = 0;
 		gb.gridy = 0;
 		mainPanel.setLayout(new GridBagLayout());
-		// mainPanel.setLayout(new GridLayout(3, 1));
 
 		JPanel imagePanel = new JPanel();
 		JLabel imageLabel = new JLabel(new ImageIcon(pieMenuDrawings));
@@ -579,7 +470,6 @@ public class Tutorial extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				initTutoPieMenu2();
 			}
 		});
@@ -588,7 +478,6 @@ public class Tutorial extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				dispose();
 				ToolBar tool = new ToolBar();
 				new GraphicalEditor("Editor 2.0", 1400, 900, tool);
@@ -597,7 +486,6 @@ public class Tutorial extends JFrame {
 		});
 
 		this.revalidate();
-		// getContentPane().setBackground(backgroundColor);
 
 	}
 

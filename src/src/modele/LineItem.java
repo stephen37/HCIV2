@@ -85,7 +85,7 @@ public class LineItem extends CanvasItem {
 		return ((int) ((Line2D.Float) shape).getX2() - (int) ((Line2D.Float) shape)
 				.getX1());
 	}
-	
+
 	public int getHeight() {
 		return ((int) ((Line2D.Float) shape).getY2() - (int) ((Line2D.Float) shape)
 				.getY1());
@@ -97,13 +97,13 @@ public class LineItem extends CanvasItem {
 		return null;
 	}
 
-	public void rotate(int angle){
-		
+	public void rotate(int angle) {
+
 	}
 
 	@Override
 	public void setY(int y) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

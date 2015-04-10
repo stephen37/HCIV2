@@ -11,14 +11,14 @@ import java.util.ArrayList;
  *
  */
 public class PathAnimation {
-	
-	//Caracteristiques
+
+	// Caracteristiques
 	Point2D location;
 	double angle;
 	int index;
 	ArrayList<Point2D> points;
 
-	//Constructeur
+	// Constructeur
 	public PathAnimation(int x, int y) {
 		points = new ArrayList<Point2D>();
 		location = new Point2D.Double(x, y);

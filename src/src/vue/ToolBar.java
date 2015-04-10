@@ -139,6 +139,7 @@ public class ToolBar extends JFrame {
 			}
 		});
 
+		// Bouton permettant de dessiner les guides.
 		GuideButton guideButton = new GuideButton();
 		guideButton.setPreferredSize(new Dimension(100, 20));
 		guideButton.addActionListener(new ActionListener() {

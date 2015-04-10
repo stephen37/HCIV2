@@ -16,45 +16,45 @@ import javax.swing.JButton;
  */
 public class PathButton extends JButton {
 
-	//Caracteristiques
+	// Caracteristiques
 	private static final long serialVersionUID = 1L;
 	private static ImageIcon icon = new ImageIcon("ImagesMain/Path.png");
 
-	//Constructeur
+	// Constructeur
 	public PathButton() {
 		this.setSize(30, 30);
 		this.setIcon(icon);
 		this.setBackground(Color.WHITE);
-this.addMouseListener(new MouseListener() {
-			
+		this.addMouseListener(new MouseListener() {
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
 				setToolTipText("Draw a non straight line");
 			}
-			
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 

@@ -9,10 +9,10 @@ import java.util.ArrayList;
 
 import vue.ToolBar;
 import controleur.PositionAnimation;
-import controleur.ToolBoxIconButton;
 
 /**
- * @author Nicolas Roussel (roussel@lri.fr)
+ * @author Nicolas Roussel (roussel@lri.fr) Modifications apportées par Stephen
+ *         Batifol et Thibault Soret
  * 
  */
 @SuppressWarnings("serial")
@@ -95,7 +95,7 @@ public class PersistentCanvas extends Component {
 		return items;
 	}
 
-	public static void processAnimation() { 
+	public static void processAnimation() {
 		if (ToolBar.startCheckBox.isSelected()) {
 			for (CanvasItem item : items) {
 				if (item.horizAnimate) {

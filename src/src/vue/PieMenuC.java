@@ -1,4 +1,4 @@
-package modele;
+package vue;
 
 import java.awt.Color;
 import java.awt.Image;
@@ -10,12 +10,15 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-public class PieMenuP extends CanvasItem{
+import modele.CanvasItem;
+import modele.PersistentCanvas;
+
+public class PieMenuC extends CanvasItem{
 
 	Point firstpoint;
-	String pathImage = "PieMenu/Pie/Pie4PTrans.png";
+	String pathImage = "PieMenu/Pie/Pie4CTrans.png";
 	
-	public PieMenuP(PersistentCanvas c, Color o, Color f, Point p, int v) throws IOException{
+	public PieMenuC(PersistentCanvas c, Color o, Color f, Point p, int v) throws IOException{
 			super(c, o, f, v);
 			Image img = ImageIO.read(new File(pathImage));
 			shape = new Rectangle(p.x, p.y, img.getWidth(null), img.getHeight(null));
@@ -38,7 +41,7 @@ public class PieMenuP extends CanvasItem{
 	}
 
 	public String getType() {
-		return "PieMenuP";
+		return "PieMenuC";
 	}
 
 	public ArrayList<Integer> getPoints() {

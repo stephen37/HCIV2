@@ -61,16 +61,6 @@ import modele.LineItem;
 import modele.Neige;
 import modele.PathItem;
 import modele.PersistentCanvas;
-import modele.PieMenuAnimation;
-import modele.PieMenuC;
-import modele.PieMenuDessin;
-import modele.PieMenuEllipse;
-import modele.PieMenuH;
-import modele.PieMenuLine;
-import modele.PieMenuP;
-import modele.PieMenuPath;
-import modele.PieMenuRectangle;
-import modele.PieMenuV;
 import modele.RectangleItem;
 import modele.Vent;
 import controleur.Animator;
@@ -85,10 +75,8 @@ import controleur.UndoIconButton;
 /**
  * @author Nicolas Roussel (roussel@lri.fr) Modified by Cedric Fleury
  *         (cfleury@lri.fr) - 18.10.2013 Nouvelles modifications par Stephen
- *         Batifol
+ *         Batifol et Thibault Soret
  */
-
-// TODO : LA SAUVEGARDE EN IMAGE NE FONCTIONNE PLUS
 
 @SuppressWarnings({ "unused", "resource", "static-access", "serial",
 		"unchecked" })
@@ -198,11 +186,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		// Create the canvas for drawing
-		// canvas = new PersistentCanvas();
-		// canvas.setBackground(Color.WHITE);
-		// canvas.setPreferredSize(new Dimension(width, height));
-		// this.add(canvas);
+
 		initCanvas();
 		new DropTarget(canvas, this);
 
@@ -225,7 +209,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		// Donne une position à notre Jframe afin d'éviter qu'elle soit par
 		// dessus notre toolbox.
 		setLocation(170, 0);
-		// new Tutorial();
 	}
 
 	public void initCanvas() {
@@ -240,11 +223,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 				(int) canvasY.getValue()));
 
 		canvasPanel.add(canvas);
-		// JScrollPane scrollPane = new JScrollPane(canvas);
-		// scrollPane
-		// .setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		// scrollPane
-		// .setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		this.add(canvasPanel);
 
 	}
@@ -1066,12 +1044,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 										.getHeight()) / 2);
 						Point tmp = new Point(e.getX(), e.getY());
 
-						// System.out.println("Initialisation	" +
-						// pointRotate.getX()
-						// + " ; " + pointRotate.getY());
-						// System.out.println("Deplacement	" + tmp.getX() +
-						// " ; " +
-						// tmp.getY());
 						at.translate(-selection.getMinX(), -selection.getMinY());
 						at.rotate(tmp.y - center.y);
 						at.translate(selection.getMinX(), selection.getMinY());
@@ -1080,9 +1052,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 						return;
 					if (mode.equals("Select/Move")) {
 
-						// TODO move the selected object
-						// selection.move(e.getX() - mousepos.x, e.getY()
-						// - mousepos.y);
 					} else if (!mode.equals("Horizontal")
 							&& !mode.equals("Vertical")
 							&& !mode.equals("Blink")
@@ -1097,7 +1066,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 					infosVitesse.setText("Speed : " + selection.vitesse);
 					infosTailleLabel.setText("Size : " + selection.getHeight()
 							+ " x " + selection.getWidth());
-					// }
 				}
 			}
 
@@ -1110,7 +1078,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 			}
 		});
 
-		// pane.addKeyListener(keyboardListener);
 		pack();
 		updateTitle();
 		setVisible(true);
@@ -1151,7 +1118,6 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 
 		JMenuItem pasteItem = new JMenuItem("Paste");
 		editMenu.add(pasteItem);
-		// menuPanel.setBackground(new Color(205, 205, 205));
 		menuPanel.setBackground(new Color(170, 223, 255));
 		menu.setBackground(new Color(170, 223, 255));
 		fileMenu.setBackground(new Color(170, 223, 255));
@@ -1238,6 +1204,7 @@ public class GraphicalEditor extends JFrame implements DropTargetListener,
 		});
 	}
 
+	// Initialise les icons pour le menu
 	public void initIconsMenuPanel() {
 		menuIconPanel = new JPanel();
 		menuIconPanel.setLayout(new BoxLayout(menuIconPanel, BoxLayout.Y_AXIS));

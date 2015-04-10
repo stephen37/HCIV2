@@ -12,12 +12,12 @@ import vue.GraphicalEditor;
 
 /**
  * 
- * @author John Doe Modifications	Thibault Soret & Stephen Batifol (03-03-2015)
+ * @author John Doe Modifications Thibault Soret & Stephen Batifol (03-03-2015)
  *
  */
 public class PositionAnimation extends ItemAnimation {
 
-	//Caracteristiques
+	// Caracteristiques
 	Timer timer;
 	Timer timer2;
 	PathAnimation path;
@@ -25,12 +25,12 @@ public class PositionAnimation extends ItemAnimation {
 	double angle;
 	double speed = 3;
 
-	//Constructeur
+	// Constructeur
 	public PositionAnimation(CanvasItem item) {
 		super(item);
 	}
 
-	//Animation horizontale cyclique
+	// Animation horizontale cyclique
 	@Override
 	public boolean processHorizontal() {
 		if (item.getMinX() < GraphicalEditor.canvas.getWidth()) {
@@ -42,19 +42,19 @@ public class PositionAnimation extends ItemAnimation {
 		return true;
 	}
 
-	//Animation verticale cyclique
+	// Animation verticale cyclique
 	@Override
 	public boolean processVertical() {
 		if (item.getMinY() < GraphicalEditor.canvas.getHeight()) {
 			item.move(0, 2 * item.vitesse);
 
 		} else {
-			item.move(0, -(GraphicalEditor.canvas.getHeight() + item.getHeight()));
+			item.move(0,
+					-(GraphicalEditor.canvas.getHeight() + item.getHeight()));
 		}
 		return false;
 	}
 
-	
 	public void blinkAnimated() {
 		item.getCanvas().repaint();
 		this.blink();
@@ -87,13 +87,13 @@ public class PositionAnimation extends ItemAnimation {
 		timer2.start();
 	}
 
-	//Animation de clignotement
+	// Animation de clignotement
 	public boolean processBlink() {
 		blink();
 		return true;
 	}
 
-	//Redimensionne un item
+	// Redimensionne un item
 	public boolean processResize() {
 		return true;
 	}
